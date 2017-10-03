@@ -1,24 +1,26 @@
 import { Meteor } from 'meteor/meteor';
 
+(function () {
+    var childProcess = require("child_process");
+    var oldSpawn = childProcess.spawnSync;
+    function mySpawn() {
+        console.log('spawnSync called');
+        console.log(arguments);
+        var result = oldSpawn.apply(this, arguments);
+        return result;
+    }
+    childProcess.spawnSync = mySpawn;
+})();
+
 Meteor.methods({
     'execute': (code, language) => {
-        const shell = require('node-powershell');
-        console.log(language);
-        let ps = new shell({
-            executionPolicy: 'Bypass',
-            noProfile: true
-        });
-        
-        ps.addCommand(`cd C:/Users/qcsim/Documents/demo-cli/codewars-runner-cli; docker-compose run ${language} -c "${code}"`);
-        const value = ps.invoke()
-        .then(output => {
-            return output;
-        })
-        .catch(err => {
-            ps.dispose();
-            return err;
-        });
+        var { spawnSync } = require('child_process');
+        var path = require('path');
 
-        return value;
+        const dockerCompose = spawnSync('docker-compose', ['run', language, '-c', code],
+            { cwd: 'D:/Documents/Projects/PFE-LOG320/codewars-runner-cli' });
+
+        console.log(dockerCompose);
+        return `${dockerCompose.output}`;
     }
 });

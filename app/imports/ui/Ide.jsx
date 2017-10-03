@@ -26,7 +26,6 @@ class Ide extends Component {
 
     handleLanguage(language) {
         this.language = language;
-        console.log(this.language);
     }
 
     handleSubmit(event) {
@@ -38,6 +37,8 @@ class Ide extends Component {
                 console.warn(err);
                 return;
             }
+
+            console.log(succ);
 
             this.setState({showLoader: false});
             this.setState({result: succ});
