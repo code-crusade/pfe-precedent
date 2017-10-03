@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { LanguageTemplates } from './templates.js';
 import Outputer from './Outputer';
 import Loader from './Loader';
 import Selecter from './Selecter';
@@ -8,7 +9,7 @@ class Ide extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 'public class Program{static void Main(string[] args){// Code goes here}}',
+            value: LanguageTemplates.templates[0].code,
             result: 'Le résultat sera affiché ici',
             disabled: false
         };
@@ -26,6 +27,9 @@ class Ide extends Component {
 
     handleLanguage(language) {
         this.language = language;
+        this.setState({
+            value: LanguageTemplates.templates.find(lang => lang.id === language).code
+        });
     }
 
     handleSubmit(event) {
