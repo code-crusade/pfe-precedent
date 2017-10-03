@@ -10,10 +10,10 @@ class Ide extends Component {
         super(props);
         this.state = {
             value: LanguageTemplates.templates[0].code,
-            result: 'Le résultat sera affiché ici',
-            disabled: false
+            result: 'Le résultat sera affiché ici'
         };
 
+        this.disabled = false;
         this.language = '';
         this.showLoader = false;
         this.handleChange = this.handleChange.bind(this);
@@ -34,7 +34,7 @@ class Ide extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.setState({disabled: true});
+        this.disabled = true;
         this.showLoader = true;
         Meteor.call('execute', this.state.value, this.language, (err, succ) => {
             if (err) {
@@ -44,7 +44,7 @@ class Ide extends Component {
 
             this.showLoader = false;
             this.setState({result: succ});
-            this.setState({disabled: false});
+            this.disabled = false;
         });
     }
 
@@ -56,7 +56,7 @@ class Ide extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
                     <br />
-                    <input disabled={this.state.disabled} className="button" type="submit" value="Exécuter!" />
+                    <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
                 </form>
                 <br />
                 <Outputer result={this.state.result} />
