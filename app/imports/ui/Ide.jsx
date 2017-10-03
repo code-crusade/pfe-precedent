@@ -4,18 +4,19 @@ import { LanguageTemplates } from './templates.js';
 import Outputer from './Outputer';
 import Loader from './Loader';
 import Selecter from './Selecter';
+import { Results } from '../api/results';
 
 class Ide extends Component {
     constructor(props) {
         super(props);
         this.state = {
             value: LanguageTemplates.templates[0].code,
-            result: 'Le résultat sera affiché ici'
+            result: 'Le résultat sera affiché ici',
+            showLoader: false
         };
 
         this.disabled = false;
-        this.language = '';
-        this.showLoader = false;
+        this.language = LanguageTemplates.templates[0].id;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLanguage = this.handleLanguage.bind(this);
@@ -35,14 +36,14 @@ class Ide extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.disabled = true;
-        this.showLoader = true;
+        this.setState({showLoader: true});
         Meteor.call('execute', this.state.value, this.language, (err, succ) => {
             if (err) {
                 console.warn(err);
                 return;
             }
 
-            this.showLoader = false;
+            this.setState({showLoader: false});
             this.setState({result: succ});
             this.disabled = false;
         });
@@ -51,7 +52,7 @@ class Ide extends Component {
     render() {
         return (
             <div className="ide">
-                {this.showLoader ? <Loader /> : null}
+                {this.state.showLoader ? <Loader /> : null}
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
                     <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
@@ -59,7 +60,7 @@ class Ide extends Component {
                     <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
                 </form>
                 <br />
-                <Outputer result={this.state.result} />
+                <Outputer result={this.state.result } />
             </div>
         );
     }

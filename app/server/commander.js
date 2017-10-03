@@ -1,10 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-
-(() => {
-    let childProcess = require("child_process");
-    const oldSpawn = childProcess.spawnSync;
-    childProcess.spawnSync = () => oldSpawn.apply(this, arguments);
-})();
+import { Results } from '../imports/api/results';
 
 Meteor.methods({
     'execute': (code, language) => {
@@ -14,6 +9,6 @@ Meteor.methods({
         const dockerCompose = spawnSync('docker-compose', ['run', language, '-c', code],
             { cwd: Meteor.settings.cliPath });
 
-        return `${dockerCompose.output}`;
+        return `${dockerCompose.output}`.replace(/,/g, '');
     }
 });
