@@ -6,9 +6,12 @@ Meteor.methods({
         const { spawnSync } = require('child_process');
         const path = require('path');
 
+        console.log(`language: ${language}`);
+        console.log(`code: ${code}`);
+
         const dockerCompose = spawnSync('docker-compose', ['run', language, '-c', code],
             { cwd: Meteor.settings.cliPath });
 
-        return `${dockerCompose.output}`.replace(/,/g, '');
+        return `${dockerCompose.stdout}${dockerCompose.stderr}`;
     }
 });
