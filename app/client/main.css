@@ -102,3 +102,18 @@ textarea {
     margin-left: auto;
     margin-right: auto;
 }
+
+.select-slate {
+    margin-left: 42%;
+    height: 30px;
+    width: 200px;
+ }
+
+ .select-slate select {
+    border: 1px solid #9F79B3;
+    font-size: 16px;
+    height: 30px;
+    width: 228px;
+    background-color: #9974AA;
+    color: white;
+ }

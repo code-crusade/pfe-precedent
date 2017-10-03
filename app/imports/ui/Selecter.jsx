@@ -26,7 +26,7 @@ class Selecter extends Component {
 
     render() {
         return (
-            <div>
+            <div className="select-slate">
                 <select value={this.state.current.code} onChange={this.handleChange}>
                     {this.state.languages.map(lang =>
                         <option key={lang.code} value={lang.code}>{lang.name}</option>

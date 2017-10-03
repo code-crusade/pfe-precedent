@@ -9,12 +9,12 @@ class Ide extends Component {
         super(props);
         this.state = {
             value: 'public class Program{static void Main(string[] args){// Code goes here}}',
-            result: 'Your result will be displayed here',
-            showLoader: false
+            result: 'Le résultat sera affiché ici',
+            disabled: false
         };
 
-        this.state.disabled = false;
         this.language = '';
+        this.showLoader = false;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleLanguage = this.handleLanguage.bind(this);
@@ -31,16 +31,14 @@ class Ide extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.setState({disabled: true});
-        this.setState({showLoader: true});
+        this.showLoader = true;
         Meteor.call('execute', this.state.value, this.language, (err, succ) => {
             if (err) {
                 console.warn(err);
                 return;
             }
 
-            console.log(succ);
-
-            this.setState({showLoader: false});
+            this.showLoader = false;
             this.setState({result: succ});
             this.setState({disabled: false});
         });
@@ -49,12 +47,12 @@ class Ide extends Component {
     render() {
         return (
             <div className="ide">
-                {this.state.showLoader ? <Loader /> : null}
+                {this.showLoader ? <Loader /> : null}
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
                     <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
                     <br />
-                    <input disabled={this.state.disabled} className="button" type="submit" value="Execute!" />
+                    <input disabled={this.state.disabled} className="button" type="submit" value="Exécuter!" />
                 </form>
                 <br />
                 <Outputer result={this.state.result} />

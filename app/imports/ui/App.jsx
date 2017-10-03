@@ -5,7 +5,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <h1>Demo using Codewars CLI Runner</h1>
+                <h1>Démo avec le Codewars CLI-Runner</h1>
                 <Ide />
             </div>
         );
