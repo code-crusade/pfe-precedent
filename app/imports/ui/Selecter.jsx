@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { LanguageTemplates } from './templates.js';
 
@@ -32,5 +33,9 @@ class Selecter extends Component {
         );
     }
 }
+
+Selecter.propTypes = {
+    action: PropTypes.func
+};
 
 export default Selecter;
