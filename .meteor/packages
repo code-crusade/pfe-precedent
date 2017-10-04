@@ -1,0 +1,20 @@
+# see http://docs.vulcanjs.org/packages
+
+vulcan:core
+vulcan:forms
+vulcan:routing
+vulcan:users
+vulcan:admin
+
+############ Language Packages ############
+
+vulcan:i18n-en-us
+vulcan:i18n-fr-fr
+
+############ Accounts Packages ############
+
+accounts-password@1.4.0
+
+############ Your Packages ############
+
+pfe-log320
