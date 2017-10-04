@@ -2,7 +2,7 @@
 body {
     font-family: sans-serif;
     background-color: #315481;
-    background-image: linear-gradient(to bottom, #5A2971, #9974AA 100%);
+    background-image: linear-gradient(to bottom, #39293F, #FFFFFF 200%);
     background-attachment: fixed;
     position: absolute;
     top: 0;
@@ -23,7 +23,7 @@ header {
 }
 
 h1 {
-    color: #FFFFFF;
+    color: #D4D4D4;
     font-family: Helvetica, sans-serif;
     font-size: 2.0em;
     margin: 0;
@@ -44,15 +44,16 @@ form {
 textarea {
     border: none;
     resize: none;
-    font: #000000;
+    font: #F8F8F2;
     font-family: Consolas, 'Courier New', monospace;
     font-weight: normal;
     font-size: 14px;
-    background-color: #B59FC0;
+    background-color: #272822;
+    color: #F8F8F2;
 }
 
 .button {
-    background-color: #625192;
+    background-color: #8D1B47;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -99,11 +100,11 @@ textarea {
  }
 
  .select-slate select {
-    border: 1px solid #9F79B3;
+    border: 1px solid #8D1B47;
     font-size: 16px;
     height: 30px;
     width: 228px;
-    background-color: #9974AA;
+    background-color: #8D1B47;
     color: white;
  }
 
