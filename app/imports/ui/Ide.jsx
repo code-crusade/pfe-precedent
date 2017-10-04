@@ -62,7 +62,7 @@ class Ide extends Component {
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
                     <div className='editor'>
-                        <AceEditor style={{height: 350, width: 660}}
+                        <AceEditor style={{height: 350, width: 'auto'}}
                             mode={this.language === 'cpp' ? 'csharp' : this.language}
                             theme='monokai'
                             name='editor'

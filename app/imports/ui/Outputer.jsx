@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Outputer = (props) => (
     <div>
-        <textarea style={{ height: 80, width: 660 }} value={props.result} readOnly />
+        <textarea style={{ height: 400, width: 800 }} value={props.result} readOnly />
     </div>
 );
 
