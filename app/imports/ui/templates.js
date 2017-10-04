@@ -21,15 +21,16 @@ export const LanguageTemplates = {
         },
         {
             id: 'python', name: 'Python',
-            code: '// Code goes here'
+            code: '# Code goes here'
         },
         {
             id: 'java', name: 'Java',
             code: `public class Program {
-    public void main(String[] args) {
+    public static void main(String[] args) {
         // Code goes here
     }
-}`
+}
+`
         }
     ]
 };
