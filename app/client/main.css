@@ -15,7 +15,7 @@ body {
     text-align: center;
 }
 
-header { 
+header {
     background: #d2edf4;
     background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
     padding: 20px 15px 15px 15px;
@@ -31,8 +31,8 @@ h1 {
     display: inline-block;
     text-align: center;
     margin-top: 10px;
-}  
-    
+}
+
 form {
     margin-top: 10px;
     margin-left: auto;
@@ -108,6 +108,6 @@ textarea {
  }
 
  .editor {
-     width: 42%;
+     width: 720px;
      margin: 0 auto;
  }
