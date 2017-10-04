@@ -106,3 +106,8 @@ textarea {
     background-color: #9974AA;
     color: white;
  }
+
+ .editor {
+     width: 42%;
+     margin: 0 auto;
+ }

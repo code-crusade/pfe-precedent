@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import AceEditor from 'react-ace';
+import brace from 'brace';
+import 'brace/mode/csharp';
+import 'brace/mode/java';
+import 'brace/mode/python';
+import 'brace/theme/monokai';
 import { LanguageTemplates } from './templates.js';
 import Outputer from './Outputer';
 import Loader from './Loader';
@@ -22,8 +28,8 @@ class Ide extends Component {
         this.handleLanguage = this.handleLanguage.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleChange(value) {
+        this.setState({value});
     }
 
     handleLanguage(language) {
@@ -55,12 +61,28 @@ class Ide extends Component {
                 {this.state.showLoader ? <Loader /> : null}
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
-                    <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
+                    <div className='editor'>
+                        <AceEditor style={{height: 350, width: 660}}
+                            mode={this.language === 'cpp' ? 'csharp' : this.language}
+                            theme='monokai'
+                            name='editor'
+                            fontSize={14}
+                            onChange={this.handleChange}
+                            showPrintMargin={true}
+                            showGutter={true}
+                            highlightActiveLine={true}
+                            value={this.state.value}
+                            editorProps={{$blockScrolling: true}}
+                            setOptions={{
+                                showLineNumbers: true,
+                                tabSize: 4
+                            }}/>
+                    </div>
                     <br />
                     <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
                 </form>
                 <br />
-                <Outputer result={this.state.result } />
+                <Outputer result={this.state.result} />
             </div>
         );
     }
