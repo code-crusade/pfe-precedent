@@ -1,0 +1,6 @@
+# This file ensures some sensible files are checked out and commited with the correct line endings
+# By default, let git decide how to handle line endings: LF on commit, CRLF on checkout if working on Windows, otherwise LF on checkout.
+text=auto
+
+# Shell scripts should keep the LF line ending in order to be executed by Cygwin or another shell runner on Windows.
+*.sh text eol=LF
