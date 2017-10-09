@@ -1,5 +1,5 @@
 {
-  "name": "Vulcan",
+  "name": "pfe-log320",
   "version": "1.2.0",
   "engines": {
     "npm": "^3.0"
@@ -16,6 +16,7 @@
     "babel-runtime": "^6.18.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.15.2",
+    "brace": "^0.10.0",
     "classnames": "^2.2.3",
     "cookie-parser": "^1.4.3",
     "crypto-js": "^3.1.9-1",
@@ -51,6 +52,7 @@
     "optics-agent": "^1.0.5",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-ace": "^5.3.0",
     "react-addons-pure-render-mixin": "^15.4.1",
     "react-apollo": "^1.1.1",
     "react-bootstrap": "^0.30.7",
@@ -92,7 +94,7 @@
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-meteor": "^4.0.1",
+    "eslint-plugin-meteor": "^4.1.6",
     "eslint-plugin-react": "^6.7.1"
   },
   "postcss": {

@@ -3,4 +3,4 @@
 text=auto
 
 # Shell scripts should keep the LF line ending in order to be executed by Cygwin or another shell runner on Windows.
-*.sh text eol=LF
+*.sh text eol=lf
