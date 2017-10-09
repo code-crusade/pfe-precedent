@@ -1,0 +1,3 @@
+[submodule "codewars-runner-cli"]
+	path = codewars-runner-cli
+	url = git@github.com:Codewars/codewars-runner-cli.git
