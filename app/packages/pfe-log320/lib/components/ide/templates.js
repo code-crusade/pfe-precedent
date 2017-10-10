@@ -1,7 +1,7 @@
 export const LanguageTemplates = {
     templates: [
         {
-            id: 'csharp', name: 'C#',
+            id: 'csharp', name: 'C# Mono 4.8',
             code: `public class Program
 {
     static void Main(string[] args)
@@ -12,7 +12,7 @@ export const LanguageTemplates = {
 `
         },
         {
-            id: 'cpp', name: 'C++',
+            id: 'cpp', name: 'C++ 14',
             code: `int main(int argc, char** argv)
 {
     // Code goes here
@@ -20,11 +20,11 @@ export const LanguageTemplates = {
 `
         },
         {
-            id: 'python', name: 'Python',
+            id: 'python', name: 'Python 2.7.6',
             code: '# Code goes here'
         },
         {
-            id: 'java', name: 'Java',
+            id: 'java', name: 'Java 1.8',
             code: `public class Program {
     public static void main(String[] args) {
         // Code goes here
