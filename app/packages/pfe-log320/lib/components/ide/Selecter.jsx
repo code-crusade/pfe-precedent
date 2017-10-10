@@ -24,8 +24,8 @@ class Selecter extends PureComponent {
 
     render() {
         return (
-            <div className="select-slate">
-                <select value={this.state.current.id} onChange={this.handleChange}>
+            <div>
+                <select className="custom-select" value={this.state.current.id} onChange={this.handleChange}>
                     {this.state.languages.map(lang =>
                         <option key={lang.id} value={lang.id}>{lang.name}</option>
                     )}

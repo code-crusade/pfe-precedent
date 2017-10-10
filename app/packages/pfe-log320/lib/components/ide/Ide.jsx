@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Meteor } from 'meteor/meteor';
-import AceEditor from 'react-ace';
+/*import AceEditor from 'react-ace';
 import brace from 'brace';
 import 'brace/mode/csharp';
 import 'brace/mode/java';
 import 'brace/mode/python';
-import 'brace/theme/monokai';
+import 'brace/theme/monokai';*/
 import { LanguageTemplates } from './templates.js';
 import Outputer from './Outputer';
 import Loader from './Loader';
 import Selecter from './Selecter';
 
-class Ide extends Component {
+class Ide extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -56,29 +56,15 @@ class Ide extends Component {
 
     render() {
         return (
-            <div className="ide">
+            <div>
                 {this.state.showLoader ? <Loader /> : null}
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
-                    <div className='editor'>
-                        <AceEditor style={{height: 350, width: 'auto'}}
-                            mode={this.language === 'cpp' ? 'csharp' : this.language}
-                            theme='monokai'
-                            name='editor'
-                            fontSize={14}
-                            onChange={this.handleChange}
-                            showPrintMargin={true}
-                            showGutter={true}
-                            highlightActiveLine={true}
-                            value={this.state.value}
-                            editorProps={{$blockScrolling: true}}
-                            setOptions={{
-                                showLineNumbers: true,
-                                tabSize: 4
-                            }}/>
+                    <div>
+                        <textarea className="form-control" value={this.state.value} onChange={this.handleChange} />
                     </div>
                     <br />
-                    <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
+                    <input disabled={this.disabled} className="btn btn-primary" type="submit" value="Exécuter!" />
                 </form>
                 <br />
                 <Outputer result={this.state.result} />
