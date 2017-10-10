@@ -1,5 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Meteor } from 'meteor/meteor';
+<<<<<<< HEAD
+=======
+/*import AceEditor from 'react-ace';
+import brace from 'brace';
+import 'brace/mode/csharp';
+import 'brace/mode/java';
+import 'brace/mode/python';
+import 'brace/theme/monokai';*/
+>>>>>>> 1c3550bb5d7aa6a316b567614249ed3a8d1d9a91
 import { LanguageTemplates } from './templates.js';
 import CodeMirror from 'react-codemirror';
 import MonacoEditor from 'react-monaco-editor';
@@ -7,7 +16,7 @@ import Outputer from './Outputer';
 import Loader from './Loader';
 import Selecter from './Selecter';
 
-class Ide extends Component {
+class Ide extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +61,7 @@ class Ide extends Component {
 
     render() {
         return (
-            <div className="ide">
+            <div>
                 {this.state.showLoader ? <Loader /> : null}
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
@@ -70,7 +79,7 @@ class Ide extends Component {
                         />
                     </div>
                     <br />
-                    <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
+                    <input disabled={this.disabled} className="btn btn-primary" type="submit" value="Exécuter!" />
                 </form>
                 <br />
                 <Outputer result={this.state.result} />

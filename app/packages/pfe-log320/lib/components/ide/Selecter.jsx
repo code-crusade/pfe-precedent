@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { LanguageTemplates } from './templates.js';
 
-class Selecter extends Component {
+class Selecter extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = {languages: LanguageTemplates.templates};
-        this.state.current = this.state.languages[0];
+        this.state = {
+            languages: LanguageTemplates.templates,
+            current:  LanguageTemplates.templates[0]
+        };
         this.handleChange = this.handleChange.bind(this);
         this.action = this.props.action;
     }
@@ -22,8 +24,8 @@ class Selecter extends Component {
 
     render() {
         return (
-            <div className="select-slate">
-                <select value={this.state.current.id} onChange={this.handleChange}>
+            <div>
+                <select className="custom-select" value={this.state.current.id} onChange={this.handleChange}>
                     {this.state.languages.map(lang =>
                         <option key={lang.id} value={lang.id}>{lang.name}</option>
                     )}
