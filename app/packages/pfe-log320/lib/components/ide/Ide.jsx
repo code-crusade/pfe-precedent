@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import AceEditor from 'react-ace';
-import brace from 'brace';
-import 'brace/mode/csharp';
-import 'brace/mode/java';
-import 'brace/mode/python';
-import 'brace/theme/monokai';
 import { LanguageTemplates } from './templates.js';
+import CodeMirror from 'react-codemirror';
+import MonacoEditor from 'react-monaco-editor';
 import Outputer from './Outputer';
 import Loader from './Loader';
 import Selecter from './Selecter';
@@ -61,21 +57,17 @@ class Ide extends Component {
                 <Selecter action={this.handleLanguage} />
                 <form onSubmit={this.handleSubmit}>
                     <div className='editor'>
-                        <AceEditor style={{height: 350, width: 'auto'}}
-                            mode={this.language === 'cpp' ? 'csharp' : this.language}
-                            theme='monokai'
-                            name='editor'
-                            fontSize={14}
-                            onChange={this.handleChange}
-                            showPrintMargin={true}
-                            showGutter={true}
-                            highlightActiveLine={true}
+                        <CodeMirror />
+                        <MonacoEditor
+                            width="800"
+                            height="600"
+                            language="javascript"
+                            theme="vs-dark"
                             value={this.state.value}
-                            editorProps={{$blockScrolling: true}}
-                            setOptions={{
-                                showLineNumbers: true,
-                                tabSize: 4
-                            }}/>
+                            options={{}}
+                            onChange={this.handleChange}
+                            editorDidMount={this.editorDidMount}
+                        />
                     </div>
                     <br />
                     <input disabled={this.disabled} className="button" type="submit" value="Exécuter!" />
