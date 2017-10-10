@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Results } from '../imports/api/results';
 
 Meteor.methods({
     'execute': (code, language) => {
