@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import { Meteor } from "meteor/meteor";
 import { LanguageTemplates } from "./templates.js";
-import MonacoEditor from "react-monaco-editor";
 import Outputer from "./Outputer";
 import Loader from "./Loader";
 import Selecter from "./Selecter";
@@ -22,8 +21,8 @@ class Ide extends PureComponent {
     this.handleLanguage = this.handleLanguage.bind(this);
   }
 
-  handleChange(value) {
-    this.setState({ value });
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   handleLanguage(language) {
@@ -43,9 +42,9 @@ class Ide extends PureComponent {
         return;
       }
 
+      this.disabled = false;
       this.setState({ showLoader: false });
       this.setState({ result: succ });
-      this.disabled = false;
     });
   }
 
@@ -56,15 +55,7 @@ class Ide extends PureComponent {
         <Selecter action={this.handleLanguage} />
         <form onSubmit={this.handleSubmit}>
           <div className="editor">
-            <MonacoEditor
-              width="800"
-              height="600"
-              language="javascript"
-              theme="vs-dark"
-              value={this.state.value}
-              options={{}}
-              onChange={this.handleChange}
-            />
+          <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
           </div>
           <br />
           <input
