@@ -51,7 +51,7 @@ class Ide extends PureComponent {
   render() {
     return (
       <div className="ide">
-        {this.state.showLoader ? <Loader /> : null}
+        {this.state.showLoader ? <Loader className="loader" /> : null}
         <Selecter action={this.handleLanguage} />
         <form onSubmit={this.handleSubmit}>
           <input

@@ -88,3 +88,9 @@ textarea {
     float: right;
     margin: 10px 40% 10px 0;
   }
+
+  .loader {
+    position: absolute;
+    margin-left: 48%;
+    margin-top: 15%;
+  }
