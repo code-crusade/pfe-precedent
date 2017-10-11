@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 const AppLayout = () => (
     <nav>
         <div className="navWide">
             <div className="wideDiv">
-                <a href="/">Accueil</a>
-                <a href="/ide">IDE</a>
+                <Link to="/">Accueil</Link>
+                <Link to="/ide">IDE</Link>
             </div>
         </div>
         <div className="navNarrow">
             <i className="fa fa-bars fa-2x"></i>
             <div className="narrowLinks">
-                <a href="/">Accueil</a>
-                <a href="/ide">IDE</a>
+                <Link to="/">Accueil</Link>
+                <Link to="/ide">IDE</Link>
             </div>
         </div>
     </nav>
