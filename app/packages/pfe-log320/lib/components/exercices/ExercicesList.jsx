@@ -16,6 +16,7 @@ import ExercicesItem from './ExercicesItem.jsx';
 import ExercicesNewForm from './ExercicesNewForm.jsx';
 
 import UserImport from '../userImport/UserImport';
+import AppLayout from '../layout/AppLayout';
 
 const ExercicesList = ({
   results = [],
@@ -25,55 +26,58 @@ const ExercicesList = ({
   count,
   totalCount,
 }) => (
-    <div style={{ maxWidth: '500px', margin: '20px auto' }}>
-      {/* user accounts */}
-      {currentUser ? <h4>Bienvenue {currentUser.username}</h4> : null}
-      <div
-        style={{
-          padding: '20px 0',
-          marginBottom: '20px',
-          borderBottom: '1px solid #ccc',
-        }}
-      >
-        <Components.AccountsLoginForm />
+    <div>
+      <AppLayout />
+      <div style={{ maxWidth: '500px', margin: '20px auto' }}>
+        {/* user accounts */}
+        {currentUser ? <h4>Bienvenue {currentUser.username}</h4> : null}
+        <div
+          style={{
+            padding: '20px 0',
+            marginBottom: '20px',
+            borderBottom: '1px solid #ccc',
+          }}
+        >
+          <Components.AccountsLoginForm />
+        </div>
+
+        {loading ? (
+          <Loading />
+        ) : (
+            <div className="exercices">
+              <UserImport currentUser={currentUser} />
+              {/* new document form */}
+
+              <ExercicesNewForm />
+
+              {/* documents list */}
+
+              {results.map(exercice => (
+                <ExercicesItem
+                  key={exercice._id}
+                  exercice={exercice}
+                  currentUser={currentUser}
+                />
+              ))}
+
+              {/* load more */}
+
+              {totalCount > results.length ? (
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    loadMore();
+                  }}
+                >
+                  Charger plus ({count}/{totalCount})
+            </a>
+              ) : (
+                  <p>No more items.</p>
+                )}
+            </div>
+          )}
       </div>
-
-      {loading ? (
-        <Loading />
-      ) : (
-          <div className="exercices">
-            <UserImport currentUser={currentUser} />
-            {/* new document form */}
-
-            <ExercicesNewForm />
-
-            {/* documents list */}
-
-            {results.map(exercice => (
-              <ExercicesItem
-                key={exercice._id}
-                exercice={exercice}
-                currentUser={currentUser}
-              />
-            ))}
-
-            {/* load more */}
-
-            {totalCount > results.length ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  loadMore();
-                }}
-              >
-                Charger plus ({count}/{totalCount})
-          </a>
-            ) : (
-                <p>No more items.</p>
-              )}
-          </div>
-        )}
     </div>
   );
 

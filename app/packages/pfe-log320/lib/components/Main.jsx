@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
+import AppLayout from './layout/AppLayout';
 import Ide from './ide/Ide';
 
-class App extends PureComponent {
+class Main extends PureComponent {
     render() {
         return (
             <div>
-                <h1>PFE LOG320</h1>
+                <AppLayout />
                 <Ide />
             </div>
         );
     }
 }
 
-export default App;
+export default Main;
