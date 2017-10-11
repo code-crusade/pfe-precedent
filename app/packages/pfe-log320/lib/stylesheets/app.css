@@ -1,9 +1,24 @@
 body {
-  width: 100%;
+  background-color: #315481;
+  background-image: linear-gradient(to bottom, #315481, #918e82 100%);
+  background-attachment: fixed;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+a {
+  color: rgb(96, 221, 255);
+  text-decoration: underline;
 }
 
 nav {
-    background-color: #234566;
+    background-color: #315481;
     overflow: hidden;
     padding: 1em;
     border-bottom: 1px solid #000;
