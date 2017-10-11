@@ -65,4 +65,26 @@ nav {
       display: none;
     }
   }
+
+textarea {
+  resize: none;
+}
+
+  .ide {
+    text-align: center;
+  }
+
+  .outputer {
+    text-align: center;
+
+  }
+
+  .custom-select {
+    float: left;
+    margin: 10px 0 10px 40%;
+  }
   
+  .execute {
+    float: right;
+    margin: 10px 40% 10px 0;
+  }

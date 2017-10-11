@@ -50,20 +50,20 @@ class Ide extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="ide">
         {this.state.showLoader ? <Loader /> : null}
         <Selecter action={this.handleLanguage} />
         <form onSubmit={this.handleSubmit}>
+          <input
+              disabled={this.disabled}
+              className="btn btn-primary execute"
+              type="submit"
+              value="Exécuter!"
+            />
           <div className="editor">
-          <textarea style={{ height: 300, width: 800 }} value={this.state.value} onChange={this.handleChange} />
+            <textarea style={{ height: 400, width: 800 }} value={this.state.value} onChange={this.handleChange} />
           </div>
           <br />
-          <input
-            disabled={this.disabled}
-            className="btn btn-primary"
-            type="submit"
-            value="Exécuter!"
-          />
         </form>
         <br />
         <Outputer result={this.state.result} />
