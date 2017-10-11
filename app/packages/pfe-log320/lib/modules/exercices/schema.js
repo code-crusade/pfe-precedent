@@ -65,12 +65,13 @@ const schema = {
     editableBy: ['members'],
     control: 'select',
     form: {
-      options: function() {
+      options: function () {
         // options for the select form control
         return [
-          { value: 'C++', label: 'C++' },
-          { value: 'Java', label: 'Java' },
-          { value: 'Python', label: 'Python' },
+          { value: 'c#', label: 'C# Mono 4.8' },
+          { value: 'c++', label: 'C++ 14' },
+          { value: 'python', label: 'Python 2.7.6' },
+          { value: 'java', label: 'Java 1.8' }
         ];
       },
     },

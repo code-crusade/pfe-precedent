@@ -45,11 +45,11 @@ moment.locale('fr', {
     yy: '%d années',
   },
   ordinalParse: /\d{1,2}(er|ème)/,
-  ordinal: function(number) {
+  ordinal: function (number) {
     return number + (number === 1 ? 'er' : 'ème');
   },
   meridiemParse: /PD|MD/,
-  isPM: function(input) {
+  isPM: function (input) {
     return input.charAt(0) === 'M';
   },
   // in case the meridiem units are not separated around 12, then implement
@@ -57,7 +57,7 @@ moment.locale('fr', {
   // meridiemHour : function (hour, meridiem) {
   //     return /* 0-23 hour, given meridiem token and hour 1-12 */
   // },
-  meridiem: function(hours, minutes, isLower) {
+  meridiem: function (hours, minutes, isLower) {
     return hours < 12 ? 'PD' : 'MD';
   },
   week: {
@@ -88,8 +88,7 @@ addStrings('fr', {
   'accounts.error_unknown': 'Erreure inconnue',
   'accounts.error_user_not_found': 'Utilisateur non trouvé',
   'accounts.error_username_already_exists': "Nom d'utilisateur déjà utilisé",
-  'accounts.enter_username_or_email':
-    "Entrez votre nom d'utilisateur ou votre adresse courriel",
+  'accounts.enter_username_or_email': "Entrez votre nom d'utilisateur ou votre adresse courriel",
   'accounts.error_internal_server_error': 'Internal server error',
   'accounts.username_or_email': 'Username or email',
   'accounts.enter_username': "Entrez votre nom d'utilisateur",
@@ -154,8 +153,7 @@ addStrings('fr', {
   'posts.link_already_posted': 'Ce lien a déjà été posté!',
 
   'comments.comments': 'Commentaires',
-  'comments.count':
-    '{count, plural, =0 {Pas de commentaires} one {# commentaire} other {# commentaires}}',
+  'comments.count': '{count, plural, =0 {Pas de commentaires} one {# commentaire} other {# commentaires}}',
   'comments.new': 'Nouveau Commentaire',
   'comments.no_comments': 'Pas de commentaires.',
   'comments.reply': 'Répondre',
@@ -164,7 +162,7 @@ addStrings('fr', {
   'comments.delete_confirm': 'Supprimer le commentaire “{body}”?',
   'comments.delete_success': 'Commentaire “{body}” supprimé.',
   'comments.please_log_in':
-    'Veuillez vous connecter pour laisser un commentaire.',
+  'Veuillez vous connecter pour laisser un commentaire.',
   'comments.parentCommentId': 'ID du commentaire parent',
   'comments.topLevelCommentId': 'ID du commentaire racine',
   'comments.body': 'Corps',
@@ -190,8 +188,7 @@ addStrings('fr', {
   'users.isAdmin': 'Admin',
   'users.posts': 'Posts',
   'users.please_log_in': 'Veuillez vous connecter',
-  'users.cannot_post':
-    'Désolé, vous ne disposez pas des permissions nécéssaires pour poster actuellement.',
+  'users.cannot_post': 'Désolé, vous ne disposez pas des permissions nécéssaires pour poster actuellement.',
 
   categories: 'Catégories',
   'categories.all': 'Toutes les catégories',
@@ -215,8 +212,7 @@ addStrings('fr', {
   'categories.invalid': 'Catégorie invalide',
 
   settings: 'Réglages',
-  'settings.json_message':
-    'Note: les réglages déjà spécifié dans le fichier <code>settings.json</code> seront désactivés.',
+  'settings.json_message': 'Note: les réglages déjà spécifié dans le fichier <code>settings.json</code> seront désactivés.',
   'settings.edit': 'Editer les réglages',
   'settings.edited': 'Réglages édités (veuillez rafraichir la page).',
   'settings.title': 'Titre',
@@ -253,9 +249,9 @@ addStrings('fr', {
   'newsletter.subscribe_prompt': 'Inscrivez-vous à notre newsletter',
   'newsletter.email': 'Votre email',
   'newsletter.success_message': 'Merci pour votre inscription!',
-  'newsletter.subscription_updated':
-    'Souscription à la newsletter mise à jour.',
+  'newsletter.subscription_updated': 'Souscription à la newsletter mise à jour.',
 
+  'datatable.edit': 'Modifier',
   admin: 'Admin',
   notifications: 'Notifications',
 });

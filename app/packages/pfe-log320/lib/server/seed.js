@@ -10,24 +10,30 @@ const seedData = [
   {
     name: 'Exercice 1',
     description: 'Exercice en C++',
-    language: 'C++',
+    language: 'c++',
     exercice: 'Hello world',
   },
   {
     name: 'Exercice 2',
     description: 'Exercice en Java',
-    language: 'Java',
+    language: 'java',
     exercice: 'Exercice',
   },
   {
     name: 'Exercice 3',
     description: 'Exercice en Python',
-    language: 'Python',
+    language: 'python',
+    exercice: 'Exercice',
+  },
+  {
+    name: 'Exercice 4',
+    description: 'Exercice en C#',
+    language: 'c#',
     exercice: 'Exercice',
   },
 ];
 
-const createUser = function(username, email) {
+const createUser = function (username, email) {
   const user = {
     username,
     email,
@@ -40,14 +46,14 @@ const createUser = function(username, email) {
   });
 };
 
-var createDummyUsers = function() {
+var createDummyUsers = function () {
   console.log('// inserting dummy users…');
   createUser('Bruce', 'dummyuser1@telescopeapp.org');
   createUser('Arnold', 'dummyuser2@telescopeapp.org');
   createUser('Julia', 'dummyuser3@telescopeapp.org');
 };
 
-Meteor.startup(function() {
+Meteor.startup(function () {
   if (Users.find().fetch().length === 0) {
     createDummyUsers();
   }
