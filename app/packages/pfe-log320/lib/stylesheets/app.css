@@ -94,3 +94,9 @@ textarea {
     margin-left: 48%;
     margin-top: 15%;
   }
+
+  .modal-body {
+    position: relative;
+    padding: 15px;
+    color: #000;
+  }
