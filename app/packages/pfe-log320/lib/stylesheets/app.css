@@ -70,33 +70,33 @@ textarea {
   resize: none;
 }
 
-  .ide {
-    text-align: center;
-  }
+.ide {
+  text-align: center;
+}
 
-  .outputer {
-    text-align: center;
+.outputer {
+  text-align: center;
 
-  }
+}
 
-  .custom-select {
-    float: left;
-    margin: 10px 0 10px 40%;
-  }
-  
-  .execute {
-    float: right;
-    margin: 10px 40% 10px 0;
-  }
+.custom-select {
+  float: left;
+  margin: 10px 0 10px 40%;
+}
 
-  .loader {
-    position: absolute;
-    margin-left: 48%;
-    margin-top: 15%;
-  }
+.execute {
+  float: right;
+  margin: 10px 40% 10px 0;
+}
 
-  .modal-body {
-    position: relative;
-    padding: 15px;
-    color: #000;
-  }
+.loader {
+  position: absolute;
+  margin-left: 48%;
+  margin-top: 15%;
+}
+
+.modal-body {
+  position: relative;
+  padding: 15px;
+  color: #000;
+}

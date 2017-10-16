@@ -43,15 +43,13 @@ class Ide extends PureComponent {
       }
 
       this.disabled = false;
-      this.setState({ showLoader: false });
-      this.setState({ result: succ });
+      this.setState({ showLoader: false, result: succ });
     });
   }
 
   render() {
     return (
       <div className="ide">
-        {this.state.showLoader ? <Loader className="loader" /> : null}
         <Selecter action={this.handleLanguage} />
         <form onSubmit={this.handleSubmit}>
           <input
@@ -61,6 +59,7 @@ class Ide extends PureComponent {
               value="Exécuter!"
             />
           <div className="editor">
+            {this.state.showLoader ? <Loader className="loader" /> : null}
             <textarea style={{ height: 400, width: 800 }} value={this.state.value} onChange={this.handleChange} />
           </div>
           <br />
