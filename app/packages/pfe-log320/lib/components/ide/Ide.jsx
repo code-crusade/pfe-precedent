@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { Meteor } from "meteor/meteor";
+import MonacoEditor from 'react-monaco-editor';
 import { LanguageTemplates } from "./templates.js";
 import Outputer from "./Outputer";
 import Loader from "./Loader";
@@ -19,10 +20,16 @@ class Ide extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLanguage = this.handleLanguage.bind(this);
+    this.requireConfig = {
+      url: 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js',
+      paths: {
+        vs: 'http://localhost:3000/vs'
+      }
+    };
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleChange(value) {
+    this.setState({value});
   }
 
   handleLanguage(language) {
@@ -60,7 +67,14 @@ class Ide extends PureComponent {
             />
           <div className="editor">
             {this.state.showLoader ? <Loader className="loader" /> : null}
-            <textarea style={{ height: 400, width: 800 }} value={this.state.value} onChange={this.handleChange} />
+            <MonacoEditor className="monaco-editor"
+              width="800"
+              height="400"
+              language={this.language}
+              theme="vs-dark"
+              value={this.state.value}
+              onChange={this.handleChange}
+              requireConfig={this.requireConfig} />
           </div>
           <br />
         </form>

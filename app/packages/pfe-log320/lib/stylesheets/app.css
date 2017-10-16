@@ -100,3 +100,8 @@ textarea {
   padding: 15px;
   color: #000;
 }
+
+.monaco-editor {
+  display: inline-block;
+  position: inherit;
+}

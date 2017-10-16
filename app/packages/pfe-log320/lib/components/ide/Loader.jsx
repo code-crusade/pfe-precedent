@@ -3,7 +3,7 @@ import ReactLoading from 'react-loading';
 
 const Loader = () => (
     <div className="loader">
-        <ReactLoading type="spinningBubbles" color="#444" />
+        <ReactLoading type="spinningBubbles" color="#FFF" />
     </div>
 );
 
