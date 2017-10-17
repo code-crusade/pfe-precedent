@@ -13,12 +13,12 @@ class Ide extends PureComponent {
     this.state = {
       value: LanguageTemplates.templates[0].code,
       result: "Le résultat sera affiché ici",
-      showLoader: false
+      showLoader: false,
+      theme: "vs-dark"
     };
 
     this.disabled = false;
     this.language = LanguageTemplates.templates[0].id;
-    this.theme = "vs-dark";
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,8 +44,7 @@ class Ide extends PureComponent {
   }
 
   handleTheme(theme) {
-    this.theme = theme;
-    this.forceUpdate();
+    this.setState({ theme });
   }
 
   handleSubmit(event) {
@@ -77,14 +76,14 @@ class Ide extends PureComponent {
           />
           <div className="editor">
             {this.state.showLoader ? (
-              <Loader className="loader" theme={this.theme} />
+              <Loader className="loader" theme={this.state.theme} />
             ) : null}
             <MonacoEditor
               className="monaco-editor"
               width="800"
               height="400"
               language={this.language}
-              theme={this.theme}
+              theme={this.state.theme}
               value={this.state.value}
               options={this.editorOptions}
               onChange={this.handleChange}
@@ -93,7 +92,9 @@ class Ide extends PureComponent {
           <br />
         </form>
         <br />
-        <Outputer result={this.state.result} />
+        <Outputer result={this.state.result} 
+          color={this.state.theme === "vs" ? '#1E1E1E' : '#FFFFFE'}
+          backColor={this.state.theme === "vs" ? '#FFFFFE' : '#1E1E1E'} />
       </div>
     );
   }

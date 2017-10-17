@@ -77,6 +77,9 @@ textarea {
 
 .outputer {
   text-align: center;
+  border: none;
+  font-family: monospace;
+  font-size: medium;
 }
 
 .custom-select {

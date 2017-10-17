@@ -15,13 +15,16 @@ class Selecter extends PureComponent {
   }
 
   handleChange(event) {
-    this.setState({
-      current: this.state.languages.find(lang => {
-        return lang.id === event.target.value;
-      })
-    });
+    event.preventDefault();
+    if (confirm("Le code actuel sera remplacé, continuer?")) {
+      this.setState({
+        current: this.state.languages.find(lang => {
+          return lang.id === event.target.value;
+        })
+      });
 
-    this.action(event.target.value);
+      this.action(event.target.value);
+    }
   }
 
   render() {

@@ -1,14 +1,18 @@
-import { Components, replaceComponent } from 'meteor/vulcan:core';
+import { Components, replaceComponent, withCurrentUser } from 'meteor/vulcan:core';
+import Users from 'meteor/vulcan:users';
 import React from 'react';
 import { Link } from 'react-router';
 
-const MainLayout = ({children}) =>(
+const MainLayout = ({children, currentUser}) =>(
     <div className="wrapper" id="wrapper">
         <nav>
             <div className="navWide">
                 <div className="wideDiv">
                     <Link to="/">Accueil</Link>
                     <Link to="/ide">IDE</Link>
+                    <Components.ShowIf check={Users.isAdmin} document={currentUser} failureComponent={null}>
+                        <Link to="/admin">Administration</Link>
+                    </Components.ShowIf>
                 </div>
             </div>
             <div className="navNarrow">
@@ -16,6 +20,9 @@ const MainLayout = ({children}) =>(
                 <div className="narrowLinks">
                     <Link to="/">Accueil</Link>
                     <Link to="/ide">IDE</Link>
+                    <Components.ShowIf check={Users.isAdmin} document={currentUser} failureComponent={null}>
+                        <Link to="/admin">Administration</Link>
+                    </Components.ShowIf>
                 </div>
             </div>
         </nav>
@@ -25,4 +32,4 @@ const MainLayout = ({children}) =>(
     </div>
 );
 
-replaceComponent('Layout', MainLayout);
+replaceComponent('Layout', withCurrentUser(MainLayout));
