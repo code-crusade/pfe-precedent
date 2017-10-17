@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Meteor } from "meteor/meteor";
-import MonacoEditor from 'react-monaco-editor';
+import MonacoEditor from "react-monaco-editor";
 import { LanguageTemplates } from "./templates.js";
 import Outputer from "./Outputer";
 import Loader from "./Loader";
@@ -13,28 +13,27 @@ class Ide extends PureComponent {
     this.state = {
       value: LanguageTemplates.templates[0].code,
       result: "Le résultat sera affiché ici",
-      theme: 'vs-dark',
       showLoader: false
     };
 
     this.disabled = false;
     this.language = LanguageTemplates.templates[0].id;
+    this.theme = "vs-dark";
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLanguage = this.handleLanguage.bind(this);
     this.handleTheme = this.handleTheme.bind(this);
-    
-    this.requireConfig = {
-      url: 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js',// could be local also
-      paths: {
-        vs: 'http://localhost:3000/vs' // should preload this when client is initializing to keep ui snappy
+
+    this.editorOptions = {
+      minimap: {
+        renderCharacters: false
       }
     };
   }
 
   handleChange(value) {
-    this.setState({value});
+    this.setState({ value });
   }
 
   handleLanguage(language) {
@@ -45,7 +44,8 @@ class Ide extends PureComponent {
   }
 
   handleTheme(theme) {
-    this.setState({theme});
+    this.theme = theme;
+    this.forceUpdate();
   }
 
   handleSubmit(event) {
@@ -70,21 +70,25 @@ class Ide extends PureComponent {
         <Theme action={this.handleTheme} />
         <form onSubmit={this.handleSubmit}>
           <input
-              disabled={this.disabled}
-              className="btn btn-primary execute"
-              type="submit"
-              value="Exécuter!"
-            />
+            disabled={this.disabled}
+            className="btn btn-primary execute"
+            type="submit"
+            value="Exécuter!"
+          />
           <div className="editor">
-            {this.state.showLoader ? <Loader className="loader" theme={this.state.theme} /> : null}
-            <MonacoEditor className="monaco-editor"
+            {this.state.showLoader ? (
+              <Loader className="loader" theme={this.theme} />
+            ) : null}
+            <MonacoEditor
+              className="monaco-editor"
               width="800"
               height="400"
               language={this.language}
-              theme={this.state.theme}
+              theme={this.theme}
               value={this.state.value}
+              options={this.editorOptions}
               onChange={this.handleChange}
-              requireConfig={this.requireConfig} />
+            />
           </div>
           <br />
         </form>
