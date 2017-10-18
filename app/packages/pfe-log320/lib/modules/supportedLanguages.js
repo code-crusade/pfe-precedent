@@ -96,12 +96,35 @@ export const SupportedLanguages = {
   java: {
     id: "java",
     name: "Java 1.8",
-    codeTemplate: `public class Program {
-    public static void main(String[] args) {
-        // Code goes here
-    }
-}
-`,
-    fixtureTemplate: ""
+    codeTemplate: [
+      "public class Money",
+      "{",
+      "    public int money;",
+      "",
+      "    public Money()",
+      "    {",
+      "        this.money = 9;",
+      "    }",
+      "",
+      "    public void addMoney(int amount)",
+      "    {",
+      "        this.money += amount;",
+      "    }",
+      "}\n"
+    ].join("\n"),
+    fixtureTemplate: [
+      "import org.junit.Test;",
+      "import static org.junit.Assert.assertEquals;",
+      "import org.junit.runners.JUnit4;",
+      "",
+      "public class MoneyTest {",
+      "    @Test",
+      "    public void testShouldEqual100() {",
+      "        Money money = new Money();",
+      "        money.addMoney(91);",
+      "        assertEquals(money.money, 100);",
+      "    }",
+      "}\n"
+    ].join("\n")
   }
 };
