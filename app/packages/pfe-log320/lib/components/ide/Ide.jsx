@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Meteor } from "meteor/meteor";
 import MonacoEditor from "react-monaco-editor";
-import { LanguageTemplates } from "./templates.js";
+import { SupportedLanguages } from "../../modules/supportedLanguages.js";
 import Outputer from "./Outputer";
 import Loader from "./Loader";
 import Selecter from "./Selecter";
@@ -11,14 +11,14 @@ class Ide extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      value: LanguageTemplates.templates[0].code,
+      value: SupportedLanguages.csharp.codeTemplate,
       result: "Le résultat sera affiché ici",
       showLoader: false,
       theme: "vs-dark"
     };
 
     this.disabled = false;
-    this.language = LanguageTemplates.templates[0].id;
+    this.language = "csharp";
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +39,7 @@ class Ide extends PureComponent {
   handleLanguage(language) {
     this.language = language;
     this.setState({
-      value: LanguageTemplates.templates.find(lang => lang.id === language).code
+      value: SupportedLanguages[language].codeTemplate
     });
   }
 
@@ -51,15 +51,21 @@ class Ide extends PureComponent {
     event.preventDefault();
     this.disabled = true;
     this.setState({ showLoader: true });
-    Meteor.call("execute", this.state.value, this.language, (err, succ) => {
-      if (err) {
-        console.warn(err);
-        return;
-      }
+    Meteor.call(
+      "execute",
+      this.language,
+      this.state.value,
+      SupportedLanguages[this.language].fixtureTemplate,
+      (err, succ) => {
+        if (err) {
+          console.warn(err);
+          return;
+        }
 
-      this.disabled = false;
-      this.setState({ showLoader: false, result: succ });
-    });
+        this.disabled = false;
+        this.setState({ showLoader: false, result: succ });
+      }
+    );
   }
 
   render() {
@@ -92,9 +98,11 @@ class Ide extends PureComponent {
           <br />
         </form>
         <br />
-        <Outputer result={this.state.result} 
-          color={this.state.theme === "vs" ? '#1E1E1E' : '#FFFFFE'}
-          backColor={this.state.theme === "vs" ? '#FFFFFE' : '#1E1E1E'} />
+        <Outputer
+          result={this.state.result}
+          color={this.state.theme === "vs" ? "#1E1E1E" : "#FFFFFE"}
+          backColor={this.state.theme === "vs" ? "#FFFFFE" : "#1E1E1E"}
+        />
       </div>
     );
   }

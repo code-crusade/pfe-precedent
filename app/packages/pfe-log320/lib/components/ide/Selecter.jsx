@@ -1,14 +1,14 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { LanguageTemplates } from "./templates.js";
+import { SupportedLanguages } from "../../modules/supportedLanguages.js";
 
 class Selecter extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      languages: LanguageTemplates.templates,
-      current: LanguageTemplates.templates[0]
+      languages: SupportedLanguages,
+      current: SupportedLanguages.csharp
     };
     this.handleChange = this.handleChange.bind(this);
     this.action = this.props.action;
@@ -18,9 +18,7 @@ class Selecter extends PureComponent {
     event.preventDefault();
     if (confirm("Le code actuel sera remplacé, continuer?")) {
       this.setState({
-        current: this.state.languages.find(lang => {
-          return lang.id === event.target.value;
-        })
+        current: this.state.languages[event.target.value]
       });
 
       this.action(event.target.value);
@@ -34,7 +32,7 @@ class Selecter extends PureComponent {
         value={this.state.current.id}
         onChange={this.handleChange}
       >
-        {this.state.languages.map(lang => (
+        {_.map(this.state.languages, lang => (
           <option key={lang.id} value={lang.id}>
             {lang.name}
           </option>
