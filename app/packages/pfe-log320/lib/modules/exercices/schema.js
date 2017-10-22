@@ -1,3 +1,4 @@
+import ExercicesFormIde from '../../components/exercices/ExercicesFormIde';
 /**
  * A SimpleSchema-compatible JSON schema
  */
@@ -55,6 +56,7 @@ const schema = {
     viewableBy: ['guests'],
     insertableBy: ['members'],
     editableBy: ['members'],
+    control: 'textarea',
   },
   language: {
     label: 'Language',
@@ -68,8 +70,8 @@ const schema = {
       options: function () {
         // options for the select form control
         return [
-          { value: 'c#', label: 'C# Mono 4.8' },
-          { value: 'c++', label: 'C++ 14' },
+          { value: 'csharp', label: 'C# Mono 4.8' },
+          { value: 'cpp', label: 'C++ 14' },
           { value: 'python', label: 'Python 2.7.6' },
           { value: 'java', label: 'Java 1.8' }
         ];
@@ -83,7 +85,45 @@ const schema = {
     viewableBy: ['guests'],
     insertableBy: ['members'],
     editableBy: ['members'],
-    control: 'textarea',
+    control: ExercicesFormIde,
+  },
+  difficulty: {
+    label: 'Difficulté',
+    type: String,
+    optional: false,
+    viewableBy: ['guests'],
+    insertableBy: ['members'],
+    editableBy: ['members'],
+    control: 'select',
+    form: {
+      options: function () {
+        // options for the select form control
+        return [
+          { value: 'easy', label: 'Facile' },
+          { value: 'medium', label: 'Moyen' },
+          { value: 'hard', label: 'Difficile' },
+          { value: 'veryHard', label: 'Très Difficile' }
+        ];
+      },
+    },
+  },
+  testType: {
+    label: 'Type de test',
+    type: String,
+    optional: false,
+    viewableBy: ['guests'],
+    insertableBy: ['members'],
+    editableBy: ['members'],
+    control: 'radiogroup',
+    form: {
+      options: function () {
+        // options for the select form control
+        return [
+          { value: 'practice', label: 'Pratique' },
+          { value: 'validation', label: 'Validation' },
+        ];
+      },
+    },
   },
 };
 

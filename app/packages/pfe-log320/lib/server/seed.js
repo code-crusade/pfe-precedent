@@ -10,26 +10,34 @@ const seedData = [
   {
     name: 'Exercice 1',
     description: 'Exercice en C++',
-    language: 'c++',
+    language: 'cpp',
     exercice: 'Hello world',
+    difficulty: 'easy',
+    testType: 'practice',
   },
   {
     name: 'Exercice 2',
     description: 'Exercice en Java',
     language: 'java',
     exercice: 'Exercice',
+    difficulty: 'medium',
+    testType: 'practice',
   },
   {
     name: 'Exercice 3',
     description: 'Exercice en Python',
     language: 'python',
     exercice: 'Exercice',
+    difficulty: 'hard',
+    testType: 'validation',
   },
   {
     name: 'Exercice 4',
     description: 'Exercice en C#',
-    language: 'c#',
+    language: 'csharp',
     exercice: 'Exercice',
+    difficulty: 'veryHard',
+    testType: 'validation',
   },
 ];
 

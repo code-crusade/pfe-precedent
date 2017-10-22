@@ -16,5 +16,7 @@ registerFragment(`
     description
     language
     exercice
+    difficulty
+    testType
   }
 `);

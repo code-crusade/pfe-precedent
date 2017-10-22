@@ -26,7 +26,7 @@ const ExercicesList = ({
   totalCount,
 }) => (
     <div>
-      <div style={{ maxWidth: '500px', margin: '20px auto' }}>
+      <div style={{ maxWidth: '1000px', margin: '20px auto' }}>
         {/* user accounts */}
         {currentUser ? <h4>Bienvenue {currentUser.username}</h4> : null}
         <div

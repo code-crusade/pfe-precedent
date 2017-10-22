@@ -4,16 +4,34 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Components, registerComponent } from 'meteor/vulcan:core';
 
 import Exercices from '../../modules/exercices/collection.js';
 import ExercicesEditForm from './ExercicesEditForm.jsx';
 
+const propTypes = {
+  exercice: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+};
+
 const langValueToLabel = {
-  'c#': 'C# Mono 4.8',
-  'c++': 'C++ 14',
-  'python': 'Python 2.7.6',
-  'java': 'Java 1.8'
+  csharp: 'C# Mono 4.8',
+  cpp: 'C++ 14',
+  python: 'Python 2.7.6',
+  java: 'Java 1.8',
+};
+
+const diffValueToLabel = {
+  easy: 'Facile',
+  medium: 'Moyen',
+  hard: 'Difficile',
+  veryHard: 'Très Difficile',
+};
+
+const testTypeValueToLabel = {
+  practice: 'Pratique',
+  validation: 'Validation',
 };
 
 const ExerciceItem = ({ exercice, currentUser }) => (
@@ -27,7 +45,8 @@ const ExerciceItem = ({ exercice, currentUser }) => (
     <h4>{exercice.name}</h4>
     <p>Description: {exercice.description}</p>
     <p>Language: {langValueToLabel[exercice.language]}</p>
-    <p>Exercice: {exercice.exercice}</p>
+    <p>Difficulté: {diffValueToLabel[exercice.difficulty]}</p>
+    <p>Type de test: {testTypeValueToLabel[exercice.testType]}</p>
 
     {Exercices.options.mutations.edit.check(currentUser, exercice) ? (
       <Components.ModalTrigger label="Modifier Exercice">
@@ -39,5 +58,7 @@ const ExerciceItem = ({ exercice, currentUser }) => (
     ) : null}
   </div>
 );
+
+ExerciceItem.propTypes = propTypes;
 
 export default ExerciceItem;
