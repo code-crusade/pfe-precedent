@@ -3,6 +3,7 @@ import Users from 'meteor/vulcan:users';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import '../userImport/UserImport';
 
 const MainLayout = ({children, currentUser}) =>(
     <div className="wrapper" id="wrapper">

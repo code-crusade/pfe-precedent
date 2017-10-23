@@ -15,8 +15,6 @@ import Exercices from '../../modules/exercices/collection.js';
 import ExercicesItem from './ExercicesItem.jsx';
 import ExercicesNewForm from './ExercicesNewForm.jsx';
 
-import UserImport from '../userImport/UserImport';
-
 const ExercicesList = ({
   results = [],
   currentUser,
@@ -31,13 +29,10 @@ const ExercicesList = ({
           <Loading />
         ) : (
             <div className="exercices">
-              <UserImport currentUser={currentUser} />
               {/* new document form */}
-
               <ExercicesNewForm />
 
               {/* documents list */}
-
               {results.map(exercice => (
                 <ExercicesItem
                   key={exercice._id}
