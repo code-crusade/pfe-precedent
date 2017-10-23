@@ -42,7 +42,6 @@ const ExercicesList = ({
               ))}
 
               {/* load more */}
-
               {totalCount > results.length ? (
                 <a
                   href="#"
@@ -54,7 +53,7 @@ const ExercicesList = ({
                   Charger plus ({count}/{totalCount})
             </a>
               ) : (
-                  <p>No more items.</p>
+                  <p>Fin de la liste</p>
                 )}
             </div>
           )}

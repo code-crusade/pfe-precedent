@@ -29,6 +29,10 @@ const MainLayout = ({children, currentUser}) =>(
                     <Components.ShowIf check={Users.isAdmin} document={currentUser} failureComponent={null}>
                         <Link to="/admin">Administration</Link>
                     </Components.ShowIf>
+                    {currentUser ? 
+                        <NavLoggedIn currentUser={currentUser}/> : 
+                        <NavLoggedOut currentUser={currentUser}/>
+                    }
                 </div>
             </div>
         </nav>
