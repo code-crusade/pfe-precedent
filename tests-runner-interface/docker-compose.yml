@@ -1,65 +1,65 @@
 version: '3'
 services:
 
+  dotnet-runner:
+    image: codewars/dotnet-runner
+    volumes:
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
+      - ./codewars-runner-cli/templates:/runner/templates
+    entrypoint: ''
+    command: bash
+
   java-runner:
     image: codewars/java-runner
     volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
     entrypoint: ''
     command: bash
 
   python-runner:
     image: codewars/python-runner
     volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
     entrypoint: ''
     command: bash
 
   systems-runner:
     image: codewars/systems-runner
     volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
-    entrypoint: ''
-    command: bash
-
-  dotnet-runner:
-    image: codewars/dotnet-runner
-    volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
-      - ./templates:/runner/templates
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
     entrypoint: ''
     command: bash
 
   # LANGUAGE SPECIFIC HELPERS
-  python:
-    image: codewars/python-runner
-    volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
-    entrypoint: 'node run -l python'
-
-  java:
-    image: codewars/java-runner
-    volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
-    entrypoint: 'node run -l java'
-
   cpp:
     image: codewars/systems-runner
     volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
     entrypoint: 'node run -l cpp'
 
   csharp:
     image: codewars/dotnet-runner
     volumes:
-      - ./lib:/runner/lib
-      - ./frameworks:/runner/frameworks
-      - ./templates:/runner/templates
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
+      - ./codewars-runner-cli/templates:/runner/templates
     entrypoint: 'node run -l csharp'
+
+  java:
+    image: codewars/java-runner
+    volumes:
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
+    entrypoint: 'node run -l java'
+
+  python:
+    image: codewars/python-runner
+    volumes:
+      - ./codewars-runner-cli/lib:/runner/lib
+      - ./codewars-runner-cli/frameworks:/runner/frameworks
+    entrypoint: 'node run -l python'
