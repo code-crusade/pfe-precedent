@@ -8,7 +8,7 @@ class Selecter extends PureComponent {
 
     this.state = {
       languages: SupportedLanguages,
-      current: SupportedLanguages.csharp
+      current: SupportedLanguages.csharp,
     };
     this.handleChange = this.handleChange.bind(this);
     this.action = this.props.action;
@@ -18,7 +18,7 @@ class Selecter extends PureComponent {
     event.preventDefault();
     if (confirm("Le code actuel sera remplacé, continuer?")) {
       this.setState({
-        current: this.state.languages[event.target.value]
+        current: this.state.languages[event.target.value],
       });
 
       this.action(event.target.value);
@@ -43,7 +43,7 @@ class Selecter extends PureComponent {
 }
 
 Selecter.propTypes = {
-  action: PropTypes.func
+  action: PropTypes.func,
 };
 
 export default Selecter;

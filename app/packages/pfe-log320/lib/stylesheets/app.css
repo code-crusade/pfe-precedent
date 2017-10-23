@@ -116,3 +116,7 @@ textarea {
   display: inline-block;
   position: inherit;
 }
+
+.login {
+  display: inline-block;
+}

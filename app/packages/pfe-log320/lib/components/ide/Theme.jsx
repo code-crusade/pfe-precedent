@@ -6,10 +6,10 @@ class Selecter extends PureComponent {
     super(props);
     this.themes = [
       { id: "vs-dark", value: "Dark" },
-      { id: "vs", value: "Light" }
+      { id: "vs", value: "Light" },
     ];
     this.state = {
-      current: this.themes[0]
+      current: this.themes[0],
     };
     this.handleChange = this.handleChange.bind(this);
     this.action = this.props.action;
@@ -19,7 +19,7 @@ class Selecter extends PureComponent {
     this.setState({
       current: this.themes.find(theme => {
         return theme.id === event.target.value;
-      })
+      }),
     });
 
     this.action(event.target.value);
@@ -43,7 +43,7 @@ class Selecter extends PureComponent {
 }
 
 Selecter.propTypes = {
-  action: PropTypes.func
+  action: PropTypes.func,
 };
 
 export default Selecter;

@@ -14,7 +14,7 @@ class Ide extends PureComponent {
       value: SupportedLanguages.csharp.codeTemplate,
       result: "Le résultat sera affiché ici",
       showLoader: false,
-      theme: "vs-dark"
+      theme: "vs-dark",
     };
 
     this.disabled = false;
@@ -27,8 +27,8 @@ class Ide extends PureComponent {
 
     this.editorOptions = {
       minimap: {
-        renderCharacters: false
-      }
+        renderCharacters: false,
+      },
     };
   }
 
@@ -39,7 +39,7 @@ class Ide extends PureComponent {
   handleLanguage(language) {
     this.language = language;
     this.setState({
-      value: SupportedLanguages[language].codeTemplate
+      value: SupportedLanguages[language].codeTemplate,
     });
   }
 

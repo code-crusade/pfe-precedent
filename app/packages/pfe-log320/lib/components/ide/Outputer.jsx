@@ -10,7 +10,9 @@ const Outputer = (props) => (
 );
 
 Outputer.propTypes = {
-    result: PropTypes.string
+    result: PropTypes.string,
+    color: PropTypes.string,
+    backColor: PropTypes.string,
 };
 
 export default Outputer;

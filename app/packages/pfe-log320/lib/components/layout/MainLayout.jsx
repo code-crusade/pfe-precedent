@@ -1,6 +1,7 @@
 import { Components, replaceComponent, withCurrentUser } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 const MainLayout = ({children, currentUser}) =>(
@@ -37,7 +38,7 @@ const MainLayout = ({children, currentUser}) =>(
 );
 
 const NavLoggedIn = ({currentUser}) =>
-    <div>
+    <div className="login">
         <Components.ModalTrigger className="header-accounts" label={Users.getDisplayName(currentUser)} size="small">
             <div>
                 {Users.isAdmin(currentUser) ? <p>Admin</p> : null}
@@ -46,10 +47,23 @@ const NavLoggedIn = ({currentUser}) =>
         </Components.ModalTrigger>
     </div>
 const NavLoggedOut = ({currentUser}) =>
-    <span>
+    <span className="login">
         <Components.ModalTrigger label="Enregistrer/Connecter" size="small">
             <Components.AccountsLoginForm />
         </Components.ModalTrigger>
     </span>
+
+MainLayout.propTypes = {
+    children: PropTypes.element,
+    currentUser: PropTypes.object.isRequired,
+};
+
+NavLoggedIn.propTypes = {
+    currentUser: PropTypes.object.isRequired,
+};
+
+NavLoggedOut.propTypes = {
+    currentUser: PropTypes.object,
+};
 
 replaceComponent('Layout', withCurrentUser(MainLayout));

@@ -4,6 +4,7 @@
 
 import React, { PureComponent } from 'react';
 import { Components, registerComponent } from 'meteor/vulcan:core';
+import PropTypes from "prop-types";
 
 class UserImport extends PureComponent {
     state = { finished: false };
@@ -40,5 +41,9 @@ class UserImport extends PureComponent {
         return null;
     }
 }
+
+UserImport.propTypes = {
+    currentUser: PropTypes.object,
+};
 
 export default UserImport;
