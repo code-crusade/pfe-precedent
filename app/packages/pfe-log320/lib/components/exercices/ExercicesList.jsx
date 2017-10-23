@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Components,
   withList,
@@ -65,6 +66,15 @@ const options = {
   collection: Exercices,
   fragmentName: 'ExercicesItemFragment',
   limit: 5,
+};
+
+ExercicesList.propTypes = {
+  results: PropTypes.array,
+  currentUser: PropTypes.object,
+  loading: PropTypes.bool,
+  loadMore: PropTypes.func,
+  count: PropTypes.number,
+  totalCount: PropTypes.number,
 };
 
 export default withList(options)(withCurrentUser(ExercicesList));
