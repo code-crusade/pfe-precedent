@@ -13,6 +13,10 @@ const MainLayout = ({children, currentUser}) =>(
                     <Components.ShowIf check={Users.isAdmin} document={currentUser} failureComponent={null}>
                         <Link to="/admin">Administration</Link>
                     </Components.ShowIf>
+                    {currentUser ? 
+                        <NavLoggedIn currentUser={currentUser}/> : 
+                        <NavLoggedOut currentUser={currentUser}/>
+                    }
                 </div>
             </div>
             <div className="navNarrow">
@@ -31,5 +35,21 @@ const MainLayout = ({children, currentUser}) =>(
         </div>
     </div>
 );
+
+const NavLoggedIn = ({currentUser}) =>
+    <div>
+        <Components.ModalTrigger className="header-accounts" label={Users.getDisplayName(currentUser)} size="small">
+            <div>
+                {Users.isAdmin(currentUser) ? <p>Admin</p> : null}
+                <Components.AccountsLoginForm />
+            </div>
+        </Components.ModalTrigger>
+    </div>
+const NavLoggedOut = ({currentUser}) =>
+    <span>
+        <Components.ModalTrigger label="Enregistrer/Connecter" size="small">
+            <Components.AccountsLoginForm />
+        </Components.ModalTrigger>
+    </span>
 
 replaceComponent('Layout', withCurrentUser(MainLayout));
