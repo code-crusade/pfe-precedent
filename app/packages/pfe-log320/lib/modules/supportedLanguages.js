@@ -17,7 +17,7 @@ export const SupportedLanguages = {
       "    {",
       "        this.money += amount;",
       "    }",
-      "}\n"
+      "}\n",
     ].join("\n"),
     fixtureTemplate: [
       "using NUnit.Framework;",
@@ -32,8 +32,8 @@ export const SupportedLanguages = {
       "        m.AddMoney(91);",
       "        Assert.AreEqual(100, m.money);",
       "    }",
-      "}\n"
-    ].join("\n")
+      "}\n",
+    ].join("\n"),
   },
   cpp: {
     id: "cpp",
@@ -54,7 +54,7 @@ export const SupportedLanguages = {
       "",
       "private:",
       "    int _money;",
-      "};\n"
+      "};\n",
     ].join("\n"),
     fixtureTemplate: [
       "Describe(MoneyTest)",
@@ -65,8 +65,8 @@ export const SupportedLanguages = {
       "        money.addMoney(91);",
       "        Assert::That(money.getMoney(), Equals(100));",
       "    }",
-      "};"
-    ].join("\n")
+      "};",
+    ].join("\n"),
   },
   python: {
     id: "python",
@@ -79,7 +79,7 @@ export const SupportedLanguages = {
       "    ",
       "    def add_money(self, amount):",
       "        self.money += amount",
-      ""
+      "",
     ].join("\n"),
     fixtureTemplate: [
       "Test.describe('Money')",
@@ -90,8 +90,8 @@ export const SupportedLanguages = {
       "",
       "money.add_money(91)",
       "Test.assert_equals(money.money, 100)",
-      ""
-    ].join("\n")
+      "",
+    ].join("\n"),
   },
   java: {
     id: "java",
@@ -110,7 +110,7 @@ export const SupportedLanguages = {
       "    {",
       "        this.money += amount;",
       "    }",
-      "}\n"
+      "}\n",
     ].join("\n"),
     fixtureTemplate: [
       "import org.junit.Test;",
@@ -124,7 +124,7 @@ export const SupportedLanguages = {
       "        money.addMoney(91);",
       "        assertEquals(money.money, 100);",
       "    }",
-      "}\n"
-    ].join("\n")
-  }
+      "}\n",
+    ].join("\n"),
+  },
 };

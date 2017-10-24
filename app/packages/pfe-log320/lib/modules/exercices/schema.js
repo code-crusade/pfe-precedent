@@ -73,7 +73,7 @@ const schema = {
           { value: 'csharp', label: 'C# Mono 4.8' },
           { value: 'cpp', label: 'C++ 14' },
           { value: 'python', label: 'Python 2.7.6' },
-          { value: 'java', label: 'Java 1.8' }
+          { value: 'java', label: 'Java 1.8' },
         ];
       },
     },
@@ -102,7 +102,7 @@ const schema = {
           { value: 'easy', label: 'Facile' },
           { value: 'medium', label: 'Moyen' },
           { value: 'hard', label: 'Difficile' },
-          { value: 'veryHard', label: 'Très Difficile' }
+          { value: 'veryHard', label: 'Très Difficile' },
         ];
       },
     },
