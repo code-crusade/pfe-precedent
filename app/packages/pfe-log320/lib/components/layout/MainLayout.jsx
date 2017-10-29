@@ -7,6 +7,7 @@ import {
 } from 'meteor/vulcan:core';
 import Users from 'meteor/vulcan:users';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
 
 import NavLoggedIn from './NavLoggedIn';
 import NavLoggedOut from './NavLoggedOut';
@@ -22,6 +23,20 @@ const defaultProps = {
 
 const MainLayout = ({ children, currentUser }) => (
   <div className="wrapper" id="wrapper">
+    <Helmet>
+      <link
+        name="bootstrap"
+        rel="stylesheet"
+        type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+      />
+      <link
+        name="font-awesome"
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
+    </Helmet>
     <nav>
       <div className="navWide">
         <div className="wideDiv">

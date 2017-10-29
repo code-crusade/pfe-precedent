@@ -63,7 +63,7 @@ const ExerciceItem = ({ exercice, currentUser }) => (
         Essayer l'exercice
       </Link>
       {Exercices.options.mutations.edit.check(currentUser, exercice) ? (
-        <Components.ModalTrigger label="Modifier Exercice">
+        <Components.ModalTrigger component={<Components.Icon name="edit" />}>
           <ExercicesEditForm
             currentUser={currentUser}
             documentId={exercice._id}

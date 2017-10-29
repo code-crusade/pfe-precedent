@@ -8,7 +8,6 @@ Package.describe({
 Package.onUse(function(api) {
   api.use(['vulcan:core', 'vulcan:forms', 'vulcan:accounts', 'vulcan:admin']);
 
-  api.addFiles('lib/stylesheets/bootstrap.min.css', 'client');
   api.addFiles('lib/stylesheets/app.css', 'client');
 
   api.mainModule('lib/server/main.js', 'server');
