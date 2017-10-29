@@ -8,6 +8,11 @@ import { Components, registerComponent, getFragment } from 'meteor/vulcan:core';
 
 import Exercices from '../../modules/exercices/collection.js';
 
+const propTypes = {
+  documentId: PropTypes.string,
+  closeModal: PropTypes.func,
+};
+
 const ExerciceEditForm = ({ documentId, closeModal }) => (
   <Components.SmartForm
     collection={Exercices}
@@ -20,9 +25,6 @@ const ExerciceEditForm = ({ documentId, closeModal }) => (
   />
 );
 
-ExerciceEditForm.propTypes = {
-  documentId: PropTypes.string,
-  closeModal: PropTypes.func,
-};
+ExerciceEditForm.propTypes = propTypes;
 
 export default ExerciceEditForm;

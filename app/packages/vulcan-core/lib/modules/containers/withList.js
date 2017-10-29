@@ -33,8 +33,9 @@ Terms object can have the following properties:
   - limit: String
          
 */
-     
-import React, { PropTypes, Component } from 'react';
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from 'immutability-helper';
@@ -43,12 +44,21 @@ import Mingo from 'mingo';
 import compose from 'recompose/compose';
 import withState from 'recompose/withState';
 
-const withList = (options) => {
-
-  const { collection, limit = 10, pollInterval = 20000, totalResolver = true } = options,
-        queryName = options.queryName || `${collection.options.collectionName}ListQuery`,
-        listResolverName = collection.options.resolvers.list && collection.options.resolvers.list.name,
-        totalResolverName = collection.options.resolvers.total && collection.options.resolvers.total.name;
+const withList = options => {
+  const {
+      collection,
+      limit = 10,
+      pollInterval = 20000,
+      totalResolver = true,
+    } = options,
+    queryName =
+      options.queryName || `${collection.options.collectionName}ListQuery`,
+    listResolverName =
+      collection.options.resolvers.list &&
+      collection.options.resolvers.list.name,
+    totalResolverName =
+      collection.options.resolvers.total &&
+      collection.options.resolvers.total.name;
 
   let fragment;
 
@@ -57,7 +67,9 @@ const withList = (options) => {
   } else if (options.fragmentName) {
     fragment = getFragment(options.fragmentName);
   } else {
-    fragment = getFragment(`${collection.options.collectionName}DefaultFragment`);
+    fragment = getFragment(
+      `${collection.options.collectionName}DefaultFragment`
+    );
   }
 
   const fragmentName = getFragmentName(fragment);
@@ -75,35 +87,36 @@ const withList = (options) => {
   `;
 
   return compose(
-
     // wrap component with Apollo HoC to give it access to the store
-    withApollo, 
+    withApollo,
 
     // wrap component with HoC that manages the terms object via its state
     withState('paginationTerms', 'setPaginationTerms', props => {
-
       // get initial limit from props, or else options
-      const paginationLimit = props.terms && props.terms.limit || limit;
+      const paginationLimit = (props.terms && props.terms.limit) || limit;
       const paginationTerms = {
-        limit: paginationLimit, 
-        itemsPerPage: paginationLimit, 
+        limit: paginationLimit,
+        itemsPerPage: paginationLimit,
       };
-      
+
       return paginationTerms;
     }),
 
     // wrap component with graphql HoC
     graphql(
-
       query,
 
       {
         alias: 'withList',
-        
+
         // graphql query options
-        options({terms, paginationTerms, client: apolloClient}) {
+        options({ terms, paginationTerms, client: apolloClient }) {
           // get terms from options, then props, then pagination
-          const mergedTerms = {...options.terms, ...terms, ...paginationTerms};
+          const mergedTerms = {
+            ...options.terms,
+            ...terms,
+            ...paginationTerms,
+          };
           return {
             variables: {
               terms: mergedTerms,
@@ -111,24 +124,30 @@ const withList = (options) => {
             // note: pollInterval can be set to 0 to disable polling (20s by default)
             pollInterval,
             reducer: (previousResults, action) => {
-
               // see queryReducer function defined below
-              return queryReducer(previousResults, action, collection, mergedTerms, listResolverName, totalResolverName, queryName, apolloClient);
-            
+              return queryReducer(
+                previousResults,
+                action,
+                collection,
+                mergedTerms,
+                listResolverName,
+                totalResolverName,
+                queryName,
+                apolloClient
+              );
             },
           };
         },
 
         // define props returned by graphql HoC
         props(props) {
-
           const refetch = props.data.refetch,
-                // results = Utils.convertDates(collection, props.data[listResolverName]),
-                results = props.data[listResolverName],
-                totalCount = props.data[totalResolverName],
-                networkStatus = props.data.networkStatus,
-                loading = props.data.loading,
-                error = props.data.error;
+            // results = Utils.convertDates(collection, props.data[listResolverName]),
+            results = props.data[listResolverName],
+            totalCount = props.data[totalResolverName],
+            networkStatus = props.data.networkStatus,
+            loading = props.data.loading,
+            error = props.data.error;
 
           if (error) {
             console.log(error);
@@ -148,18 +167,33 @@ const withList = (options) => {
             // regular load more (reload everything)
             loadMore(providedTerms) {
               // if new terms are provided by presentational component use them, else default to incrementing current limit once
-              const newTerms = typeof providedTerms === 'undefined' ? { /*...props.ownProps.terms,*/ ...props.ownProps.paginationTerms, limit: results.length + props.ownProps.paginationTerms.itemsPerPage } : providedTerms;
-              
+              const newTerms =
+                typeof providedTerms === 'undefined'
+                  ? {
+                      /*...props.ownProps.terms,*/ ...props.ownProps
+                        .paginationTerms,
+                      limit:
+                        results.length +
+                        props.ownProps.paginationTerms.itemsPerPage,
+                    }
+                  : providedTerms;
+
               props.ownProps.setPaginationTerms(newTerms);
             },
 
             // incremental loading version (only load new content)
             // note: not compatible with polling
             loadMoreInc(providedTerms) {
-
               // get terms passed as argument or else just default to incrementing the offset
-              const newTerms = typeof providedTerms === 'undefined' ? { ...props.ownProps.terms, ...props.ownProps.paginationTerms, offset: results.length } : providedTerms;
-              
+              const newTerms =
+                typeof providedTerms === 'undefined'
+                  ? {
+                      ...props.ownProps.terms,
+                      ...props.ownProps.paginationTerms,
+                      offset: results.length,
+                    }
+                  : providedTerms;
+
               return props.data.fetchMore({
                 variables: { terms: newTerms }, // ??? not sure about 'terms: newTerms'
                 updateQuery(previousResults, { fetchMoreResult }) {
@@ -168,60 +202,78 @@ const withList = (options) => {
                     return previousResults;
                   }
                   const newResults = {};
-                  newResults[listResolverName] = [...previousResults[listResolverName], ...fetchMoreResult.data[listResolverName]];
+                  newResults[listResolverName] = [
+                    ...previousResults[listResolverName],
+                    ...fetchMoreResult.data[listResolverName],
+                  ];
                   // return the previous results "augmented" with more
-                  return {...previousResults, ...newResults};
+                  return { ...previousResults, ...newResults };
                 },
               });
             },
 
             fragmentName,
             fragment,
-            ...props.ownProps // pass on the props down to the wrapped component
+            ...props.ownProps, // pass on the props down to the wrapped component
           };
         },
       }
     )
   );
-}
-
+};
 
 // define query reducer separately
-const queryReducer = (previousResults, action, collection, mergedTerms, listResolverName, totalResolverName, queryName, apolloClient) => {
-
+const queryReducer = (
+  previousResults,
+  action,
+  collection,
+  mergedTerms,
+  listResolverName,
+  totalResolverName,
+  queryName,
+  apolloClient
+) => {
   // if collection has no mutations defined, just return previous results
   if (!collection.options.mutations) {
     return previousResults;
   }
 
-  const newMutationName = collection.options.mutations.new && collection.options.mutations.new.name;
-  const editMutationName = collection.options.mutations.edit && collection.options.mutations.edit.name;
-  const removeMutationName = collection.options.mutations.remove && collection.options.mutations.remove.name;
+  const newMutationName =
+    collection.options.mutations.new && collection.options.mutations.new.name;
+  const editMutationName =
+    collection.options.mutations.edit && collection.options.mutations.edit.name;
+  const removeMutationName =
+    collection.options.mutations.remove &&
+    collection.options.mutations.remove.name;
 
   let newResults = previousResults;
 
   // get mongo selector and options objects based on current terms
-  const { selector, options } = collection.getParameters(mergedTerms, apolloClient);
+  const { selector, options } = collection.getParameters(
+    mergedTerms,
+    apolloClient
+  );
   const mingoQuery = Mingo.Query(selector);
 
   // function to remove a document from a results object, used by edit and remove cases below
   const removeFromResults = (results, document) => {
-    const listWithoutDocument = results[listResolverName].filter(doc => doc._id !== document._id);
+    const listWithoutDocument = results[listResolverName].filter(
+      doc => doc._id !== document._id
+    );
     const newResults = update(results, {
       [listResolverName]: { $set: listWithoutDocument }, // ex: postsList
-      [totalResolverName]: { $set: results[totalResolverName] - 1 } // ex: postsListTotal
+      [totalResolverName]: { $set: results[totalResolverName] - 1 }, // ex: postsListTotal
     });
     return newResults;
-  }
+  };
 
   // add document to a results object
   const addToResults = (results, document) => {
-
     return update(results, {
       [listResolverName]: { $unshift: [document] },
-      [totalResolverName]: { $set: results[totalResolverName] + 1 }
+      [totalResolverName]: { $set: results[totalResolverName] + 1 },
     });
-  }
+  };
 
   // reorder results according to a sort
   const reorderResults = (results, sort) => {
@@ -232,7 +284,7 @@ const queryReducer = (previousResults, action, collection, mergedTerms, listReso
     const sortedList = cursor.sort(sort).all();
     results[listResolverName] = sortedList;
     return results;
-  }
+  };
 
   // console.log('// withList reducer');
   // console.log('queryName: ', queryName);
@@ -244,7 +296,6 @@ const queryReducer = (previousResults, action, collection, mergedTerms, listReso
   // console.log('action: ', action);
 
   switch (action.operationName) {
-
     case newMutationName:
       // if new document belongs to current list (based on view selector), add it
       const newDocument = action.result.data[newMutationName];
@@ -261,7 +312,11 @@ const queryReducer = (previousResults, action, collection, mergedTerms, listReso
       const editedDocument = action.result.data[editMutationName];
       if (mingoQuery.test(editedDocument)) {
         // edited document belongs to the list
-        if (!_.findWhere(previousResults[listResolverName], {_id: editedDocument._id})) {
+        if (
+          !_.findWhere(previousResults[listResolverName], {
+            _id: editedDocument._id,
+          })
+        ) {
           // if document wasn't already in list, add it
           newResults = addToResults(previousResults, editedDocument);
         }
@@ -289,7 +344,7 @@ const queryReducer = (previousResults, action, collection, mergedTerms, listReso
       newResults = reorderResults(newResults, options.sort);
       break;
 
-    default: 
+    default:
       // console.log('** no action **')
       return previousResults;
   }
@@ -302,8 +357,7 @@ const queryReducer = (previousResults, action, collection, mergedTerms, listReso
   return {
     [listResolverName]: [...newResults[listResolverName]],
     [totalResolverName]: newResults[totalResolverName],
-  }
-
-}
+  };
+};
 
 export default withList;

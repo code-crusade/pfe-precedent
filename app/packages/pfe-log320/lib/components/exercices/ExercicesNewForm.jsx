@@ -13,6 +13,10 @@ import {
 
 import Exercices from '../../modules/exercices/collection.js';
 
+const propTypes = {
+  currentUser: PropTypes.object,
+};
+
 const ExercicesNewForm = ({ currentUser }) => (
   <div>
     {Exercices.options.mutations.new.check(currentUser) ? (
@@ -33,8 +37,6 @@ const ExercicesNewForm = ({ currentUser }) => (
   </div>
 );
 
-ExercicesNewForm.propTypes = {
-  currentUser: PropTypes.object,
-};
+ExercicesNewForm.propTypes = propTypes;
 
 export default withCurrentUser(ExercicesNewForm);

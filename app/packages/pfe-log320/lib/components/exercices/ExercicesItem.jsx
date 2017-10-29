@@ -6,13 +6,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Components, registerComponent } from 'meteor/vulcan:core';
+import { Link } from 'react-router';
 
 import Exercices from '../../modules/exercices/collection.js';
 import ExercicesEditForm from './ExercicesEditForm.jsx';
 
 const propTypes = {
   exercice: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
+};
+
+const defaultProps = {
+  currentUser: {},
 };
 
 const langValueToLabel = {
@@ -48,17 +53,28 @@ const ExerciceItem = ({ exercice, currentUser }) => (
     <p>Difficulté: {diffValueToLabel[exercice.difficulty]}</p>
     <p>Type de test: {testTypeValueToLabel[exercice.testType]}</p>
 
-    {Exercices.options.mutations.edit.check(currentUser, exercice) ? (
-      <Components.ModalTrigger label="Modifier Exercice">
-        <ExercicesEditForm
-          currentUser={currentUser}
-          documentId={exercice._id}
-        />
-      </Components.ModalTrigger>
-    ) : null}
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Link
+        to={{
+          pathname: 'ide',
+          state: { exercice },
+        }}
+      >
+        Essayer l'exercice
+      </Link>
+      {Exercices.options.mutations.edit.check(currentUser, exercice) ? (
+        <Components.ModalTrigger label="Modifier Exercice">
+          <ExercicesEditForm
+            currentUser={currentUser}
+            documentId={exercice._id}
+          />
+        </Components.ModalTrigger>
+      ) : null}
+    </div>
   </div>
 );
 
 ExerciceItem.propTypes = propTypes;
+ExerciceItem.defaultProps = defaultProps;
 
 export default ExerciceItem;

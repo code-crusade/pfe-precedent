@@ -5,6 +5,7 @@ vulcan:forms
 vulcan:routing
 vulcan:users
 vulcan:admin
+vulcan:base-styles
 
 ############ Language Packages ############
 

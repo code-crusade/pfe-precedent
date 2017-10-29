@@ -1,29 +1,35 @@
-import React, { PureComponent } from "react";
-import { Meteor } from "meteor/meteor";
-import MonacoEditor from "react-monaco-editor";
-import { SupportedLanguages } from "../../modules/supportedLanguages.js";
-import Outputer from "./Outputer";
-import Loader from "./Loader";
-import Selecter from "./Selecter";
-import Theme from "./Theme";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
+import MonacoEditor from 'react-monaco-editor';
+import { Loading } from 'meteor/vulcan:core';
+import get from 'lodash/get';
 
+import { SupportedLanguages } from '../../modules/supportedLanguages.js';
+import Outputer from './Outputer';
+import Selecter from './Selecter';
+import Theme from './Theme';
+
+const propTypes = {
+  location: PropTypes.object,
+};
+
+const defaultProps = {
+  location: {},
+};
 class Ide extends PureComponent {
   constructor(props) {
     super(props);
+    const exercice = get(props.location, 'state.exercice');
     this.state = {
-      value: SupportedLanguages.csharp.codeTemplate,
-      result: "Le résultat sera affiché ici",
+      value:
+        get(exercice, 'exercice') || SupportedLanguages.csharp.codeTemplate,
+      result: 'Le résultat sera affiché ici',
       showLoader: false,
-      theme: "vs-dark",
+      theme: 'vs-dark',
+      disabled: false,
+      language: get(exercice, 'language') || 'csharp',
     };
-
-    this.disabled = false;
-    this.language = "csharp";
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLanguage = this.handleLanguage.bind(this);
-    this.handleTheme = this.handleTheme.bind(this);
 
     this.editorOptions = {
       minimap: {
@@ -32,65 +38,62 @@ class Ide extends PureComponent {
     };
   }
 
-  handleChange(value) {
+  handleChange = value => {
     this.setState({ value });
-  }
+  };
 
-  handleLanguage(language) {
-    this.language = language;
+  handleLanguage = language => {
     this.setState({
+      language,
       value: SupportedLanguages[language].codeTemplate,
     });
-  }
+  };
 
-  handleTheme(theme) {
+  handleTheme = theme => {
     this.setState({ theme });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
-    this.disabled = true;
-    this.setState({ showLoader: true });
+    this.setState({ showLoader: true, disabled: true });
     Meteor.call(
-      "execute",
-      this.language,
+      'execute',
+      this.state.language,
       this.state.value,
-      SupportedLanguages[this.language].fixtureTemplate,
+      SupportedLanguages[this.state.language].fixtureTemplate,
       (err, succ) => {
         if (err) {
           console.warn(err);
           return;
         }
 
-        this.disabled = false;
-        this.setState({ showLoader: false, result: succ });
+        this.setState({ showLoader: false, disabled: false, result: succ });
       }
     );
-  }
+  };
 
   render() {
+    const { language, theme, disabled, showLoader, value, result } = this.state;
     return (
       <div className="ide">
-        <Selecter action={this.handleLanguage} />
-        <Theme action={this.handleTheme} />
+        <Selecter onChange={this.handleLanguage} value={language} />
+        <Theme onChange={this.handleTheme} value={theme} />
         <form onSubmit={this.handleSubmit}>
           <input
-            disabled={this.disabled}
+            disabled={disabled}
             className="btn btn-primary execute"
             type="submit"
             value="Exécuter!"
           />
           <div className="editor">
-            {this.state.showLoader ? (
-              <Loader className="loader" theme={this.state.theme} />
-            ) : null}
+            {showLoader ? <Loading className="loader" theme={theme} /> : null}
             <MonacoEditor
               className="monaco-editor"
               width="800"
               height="400"
-              language={this.language}
-              theme={this.state.theme}
-              value={this.state.value}
+              language={language}
+              theme={theme}
+              value={value}
               options={this.editorOptions}
               onChange={this.handleChange}
             />
@@ -99,13 +102,16 @@ class Ide extends PureComponent {
         </form>
         <br />
         <Outputer
-          result={this.state.result}
-          color={this.state.theme === "vs" ? "#1E1E1E" : "#FFFFFE"}
-          backColor={this.state.theme === "vs" ? "#FFFFFE" : "#1E1E1E"}
+          result={result}
+          color={theme === 'vs' ? '#1E1E1E' : '#FFFFFE'}
+          backgroundColor={theme === 'vs' ? '#FFFFFE' : '#1E1E1E'}
         />
       </div>
     );
   }
 }
+
+Ide.propTypes = propTypes;
+Ide.defaultProps = defaultProps;
 
 export default Ide;

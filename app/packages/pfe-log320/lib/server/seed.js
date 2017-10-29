@@ -11,7 +11,22 @@ const seedData = [
     name: 'Exercice 1',
     description: 'Exercice en C++',
     language: 'cpp',
-    exercice: 'Hello world',
+    exercice:
+      'class Money\n' +
+      '{\n' +
+      'public:\n' +
+      '    Money() : _money(9) {}\n' +
+      '    virtual ~Money() {}\n' +
+      '    int getMoney() { return _money; }\n' +
+      '    \n' +
+      '    void addMoney(int amount)\n' +
+      '    {\n' +
+      '        _money += amount;\n' +
+      '    }\n' +
+      '\n' +
+      'private:\n' +
+      '    int _money;\n' +
+      '};\n',
     difficulty: 'easy',
     testType: 'practice',
   },
@@ -19,7 +34,21 @@ const seedData = [
     name: 'Exercice 2',
     description: 'Exercice en Java',
     language: 'java',
-    exercice: 'Exercice',
+    exercice:
+      'public class Money\n' +
+      '{\n' +
+      '    public int money;\n' +
+      '\n' +
+      '    public Money()\n' +
+      '    {\n' +
+      '        this.money = 9;\n' +
+      '    }\n' +
+      '\n' +
+      '    public void addMoney(int amount)\n' +
+      '    {\n' +
+      '        this.money += amount;\n' +
+      '    }\n' +
+      '}\n',
     difficulty: 'medium',
     testType: 'practice',
   },
@@ -27,7 +56,14 @@ const seedData = [
     name: 'Exercice 3',
     description: 'Exercice en Python',
     language: 'python',
-    exercice: 'Exercice',
+    exercice:
+      'class Money:\n' +
+      '    def __init__(self):\n' +
+      '        self.money = 9\n' +
+      '    \n' +
+      '    def add_money(self, amount):\n' +
+      '        self.money += amount\n' +
+      '',
     difficulty: 'hard',
     testType: 'validation',
   },
@@ -35,13 +71,27 @@ const seedData = [
     name: 'Exercice 4',
     description: 'Exercice en C#',
     language: 'csharp',
-    exercice: 'Exercice',
+    exercice:
+      'public class Money\n' +
+      '{\n' +
+      '    public int money;\n' +
+      '\n' +
+      '    public Money()\n' +
+      '    {\n' +
+      '        this.money = 9;\n' +
+      '    }\n' +
+      '\n' +
+      '    public void AddMoney(int amount)\n' +
+      '    {\n' +
+      '        this.money += amount;\n' +
+      '    }\n' +
+      '}\n',
     difficulty: 'veryHard',
     testType: 'validation',
   },
 ];
 
-const createUser = function (username, email) {
+const createUser = function(username, email) {
   const user = {
     username,
     email,
@@ -54,14 +104,14 @@ const createUser = function (username, email) {
   });
 };
 
-var createDummyUsers = function () {
+var createDummyUsers = function() {
   console.log('// inserting dummy users…');
   createUser('Bruce', 'dummyuser1@telescopeapp.org');
   createUser('Arnold', 'dummyuser2@telescopeapp.org');
   createUser('Julia', 'dummyuser3@telescopeapp.org');
 };
 
-Meteor.startup(function () {
+Meteor.startup(function() {
   if (Users.find().fetch().length === 0) {
     createDummyUsers();
   }

@@ -13,7 +13,7 @@ const resolvers = {
       let { selector, options } = context.Exercices.getParameters(
         terms,
         {},
-        context.currentUser,
+        context.currentUser
       );
       return context.Exercices.find(selector, options).fetch();
     },
@@ -25,7 +25,7 @@ const resolvers = {
       return context.Users.restrictViewableFields(
         context.currentUser,
         context.Exercices,
-        document,
+        document
       );
     },
   },
@@ -35,7 +35,7 @@ const resolvers = {
       const { selector, options } = context.Exercices.getParameters(
         terms,
         {},
-        context.currentUser,
+        context.currentUser
       );
       return context.Exercices.find(selector, options).count();
     },

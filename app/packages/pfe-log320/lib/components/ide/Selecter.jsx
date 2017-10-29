@@ -1,38 +1,28 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { SupportedLanguages } from "../../modules/supportedLanguages.js";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { SupportedLanguages } from '../../modules/supportedLanguages.js';
+
+const propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 class Selecter extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      languages: SupportedLanguages,
-      current: SupportedLanguages.csharp,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.action = this.props.action;
-  }
-
-  handleChange(event) {
+  onChange = event => {
     event.preventDefault();
-    if (confirm("Le code actuel sera remplacé, continuer?")) {
-      this.setState({
-        current: this.state.languages[event.target.value],
-      });
-
-      this.action(event.target.value);
+    if (confirm('Le code actuel sera remplacé, continuer?')) {
+      this.props.onChange(event.target.value);
     }
-  }
+  };
 
   render() {
     return (
       <select
         className="custom-select"
-        value={this.state.current.id}
-        onChange={this.handleChange}
+        value={this.props.value}
+        onChange={this.onChange}
       >
-        {_.map(this.state.languages, lang => (
+        {_.map(SupportedLanguages, lang => (
           <option key={lang.id} value={lang.id}>
             {lang.name}
           </option>
@@ -42,8 +32,6 @@ class Selecter extends PureComponent {
   }
 }
 
-Selecter.propTypes = {
-  action: PropTypes.func,
-};
+Selecter.propTypes = propTypes;
 
 export default Selecter;

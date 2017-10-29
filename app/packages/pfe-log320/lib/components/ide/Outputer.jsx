@@ -1,18 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Outputer = (props) => (
-    <div>
-        <textarea className="outputer" style={
-                { height: 190, width: 800, textAlign: "left", color: props.color, backgroundColor: props.backColor }
-            } value={props.result} readOnly />
-    </div>
+const propTypes = {
+  result: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+};
+
+const Outputer = ({ result, color, backgroundColor }) => (
+  <div>
+    <textarea
+      className="outputer"
+      style={{
+        height: 190,
+        width: 800,
+        textAlign: 'left',
+        color,
+        backgroundColor,
+      }}
+      value={result}
+      readOnly
+    />
+  </div>
 );
 
-Outputer.propTypes = {
-    result: PropTypes.string,
-    color: PropTypes.string,
-    backColor: PropTypes.string,
-};
+Outputer.propTypes = propTypes;
 
 export default Outputer;
