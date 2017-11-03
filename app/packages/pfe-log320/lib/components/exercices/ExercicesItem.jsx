@@ -20,6 +20,13 @@ const defaultProps = {
   currentUser: {},
 };
 
+const langValueToIcon = {
+  csharp: 'csharp',
+  cpp: 'cplusplus',
+  python: 'python',
+  java: 'java',
+};
+
 const langValueToLabel = {
   csharp: 'C# Mono 4.8',
   cpp: 'C++ 14',
@@ -47,11 +54,36 @@ const ExerciceItem = ({ exercice, currentUser }) => (
       borderBottom: '1px solid #ccc',
     }}
   >
-    <h4>{exercice.name}</h4>
-    <p>Description: {exercice.description}</p>
-    <p>Language: {langValueToLabel[exercice.language]}</p>
-    <p>Difficulté: {diffValueToLabel[exercice.difficulty]}</p>
-    <p>Type de test: {testTypeValueToLabel[exercice.testType]}</p>
+    <h2
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      {exercice.name}
+      <div style={{ display: 'flex' }}>
+        <i
+          className={`devicon-${langValueToIcon[
+            exercice.language
+          ]}-plain colored`}
+        />
+      </div>
+    </h2>
+
+    <dl className="row">
+      <dt className="col-sm-3">Description:</dt>
+      <dd className="col-sm-9">{exercice.description}</dd>
+
+      <dt className="col-sm-3">Language:</dt>
+      <dd className="col-sm-9">{langValueToLabel[exercice.language]}</dd>
+
+      <dt className="col-sm-3">Difficulté:</dt>
+      <dd className="col-sm-9">{diffValueToLabel[exercice.difficulty]}</dd>
+
+      <dt className="col-sm-3">Type de test:</dt>
+      <dd className="col-sm-9">{testTypeValueToLabel[exercice.testType]}</dd>
+    </dl>
 
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Link

@@ -36,6 +36,12 @@ const MainLayout = ({ children, currentUser }) => (
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
+      <link
+        name="devicon"
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"
+      />
     </Helmet>
     <nav>
       <div className="navWide">
