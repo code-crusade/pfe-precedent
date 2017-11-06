@@ -21,10 +21,10 @@ const defaultProps = {
 };
 
 const langValueToIcon = {
-  'c#': 'csharp',
-  'c++': 'cplusplus',
-  'python': 'python',
-  'java': 'java',
+  csharp: 'csharp',
+  cpp: 'cplusplus',
+  python: 'python',
+  java: 'java',
 };
 
 const langValueToLabel = {
