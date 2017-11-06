@@ -9,6 +9,7 @@ import { SupportedLanguages } from '../../modules/supportedLanguages.js';
 import Outputer from './Outputer';
 import Selecter from './Selecter';
 import Theme from './Theme';
+import Description from './Description';
 
 const propTypes = {
   location: PropTypes.object,
@@ -24,6 +25,10 @@ class Ide extends PureComponent {
     this.state = {
       value:
         get(exercice, 'exercice') || SupportedLanguages.csharp.codeTemplate,
+      description:
+        get(exercice, 'description'),
+      title:
+        get(exercice, 'name'),
       result: 'Le résultat sera affiché ici',
       showLoader: false,
       theme: 'vs-dark',
@@ -84,6 +89,11 @@ class Ide extends PureComponent {
             className="btn btn-primary execute"
             type="submit"
             value="Exécuter!"
+          />
+          <Description title={this.state.title}
+            description={this.state.description}
+            color={theme === 'vs' ? '#1E1E1E' : '#FFFFFE'}
+            backgroundColor={theme === 'vs' ? '#FFFFFE' : '#1E1E1E'}
           />
           <div className="editor">
             {showLoader ? <Loading className="loader" theme={theme} /> : null}
