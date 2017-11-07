@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const propTypes = {
   description: PropTypes.string.isRequired,
@@ -9,14 +9,24 @@ const propTypes = {
 };
 
 const Description = ({ title, description, color, backgroundColor }) => (
-  <div>
-    <label className="label label-info">{title}</label>
+  <div
+    style={{
+      height: "100%",
+      minWidth: 400,
+      display: "flex",
+      flexDirection: "column",
+    }}
+  >
+    <label
+      className="label label-info"
+      style={{ position: "relative", flex: "0 0 auto" }}
+    >
+      {title}
+    </label>
     <textarea
-      className="outputer"
       style={{
-        height: 190,
-        width: 800,
-        textAlign: 'left',
+        position: "relative",
+        flex: "1 1 auto",
         color,
         backgroundColor,
       }}

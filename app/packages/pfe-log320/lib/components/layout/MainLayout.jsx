@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Components,
   replaceComponent,
   withCurrentUser,
-} from 'meteor/vulcan:core';
-import Users from 'meteor/vulcan:users';
-import { Link } from 'react-router';
-import Helmet from 'react-helmet';
+} from "meteor/vulcan:core";
+import Users from "meteor/vulcan:users";
+import { Link } from "react-router";
+import Helmet from "react-helmet";
 
-import NavLoggedIn from './NavLoggedIn';
-import NavLoggedOut from './NavLoggedOut';
+import NavLoggedIn from "./NavLoggedIn";
+import NavLoggedOut from "./NavLoggedOut";
 
 const propTypes = {
   children: PropTypes.element.isRequired,
@@ -22,7 +22,7 @@ const defaultProps = {
 };
 
 const MainLayout = ({ children, currentUser }) => (
-  <div className="wrapper" id="wrapper">
+  <div className="page-wrapper" id="page-wrapper">
     <Helmet>
       <link
         name="bootstrap"
@@ -43,7 +43,7 @@ const MainLayout = ({ children, currentUser }) => (
         href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"
       />
     </Helmet>
-    <nav>
+    <nav className="navbar">
       <div className="navWide">
         <div className="wideDiv">
           <Link to="/">Accueil</Link>
@@ -82,11 +82,11 @@ const MainLayout = ({ children, currentUser }) => (
         </div>
       </div>
     </nav>
-    <div>{children}</div>
+    <div className="page-content">{children}</div>
   </div>
 );
 
 MainLayout.propTypes = propTypes;
 MainLayout.defaultProps = defaultProps;
 
-replaceComponent('Layout', withCurrentUser(MainLayout));
+replaceComponent("Layout", withCurrentUser(MainLayout));

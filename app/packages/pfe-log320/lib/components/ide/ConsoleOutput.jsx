@@ -11,7 +11,7 @@ const defaultProps = {
   result: "",
 };
 
-class Outputer extends Component {
+class ConsoleOutput extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,6 +49,10 @@ class Outputer extends Component {
     );
   };
 
+  layoutEditor = () => {
+    this.editor && this.editor.layout();
+  };
+
   render() {
     const { value, theme } = this.state;
     const editorOptions = {
@@ -76,8 +80,6 @@ class Outputer extends Component {
     return (
       <MonacoEditor
         className="console-output"
-        width="800"
-        height="190"
         theme={theme}
         language="plain-text"
         value={value}
@@ -88,7 +90,7 @@ class Outputer extends Component {
   }
 }
 
-Outputer.propTypes = propTypes;
-Outputer.defaultProps = defaultProps;
+ConsoleOutput.propTypes = propTypes;
+ConsoleOutput.defaultProps = defaultProps;
 
-export default Outputer;
+export default ConsoleOutput;
