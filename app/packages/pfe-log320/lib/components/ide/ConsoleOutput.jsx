@@ -3,19 +3,19 @@ import PropTypes from "prop-types";
 import MonacoEditor from "react-monaco-editor";
 
 const propTypes = {
-  result: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
 };
 
 const defaultProps = {
-  result: "",
+  value: "",
 };
 
 class ConsoleOutput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.result,
+      value: props.value,
       theme: props.theme,
     };
     this.oldDecorationsIds = [];
@@ -55,6 +55,8 @@ class ConsoleOutput extends Component {
 
   render() {
     const { value, theme } = this.state;
+    const monacoTheme = { dark: "vs-dark", light: "vs" }[theme] || "vs-dark";
+
     const editorOptions = {
       readOnly: true,
 
@@ -75,12 +77,13 @@ class ConsoleOutput extends Component {
 
       // Inline
       occurrencesHighlight: false,
+      selectionHighlight: false,
     };
 
     return (
       <MonacoEditor
         className="console-output"
-        theme={theme}
+        theme={monacoTheme}
         language="plain-text"
         value={value}
         options={editorOptions}

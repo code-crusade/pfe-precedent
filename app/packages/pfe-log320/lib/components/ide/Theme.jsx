@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
 const propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
 
-const themes = [{ id: 'vs-dark', value: 'Dark' }, { id: 'vs', value: 'Light' }];
+const themes = [{ id: "dark", value: "Dark" }, { id: "light", value: "Light" }];
 
 const Theme = ({ onChange, value }) => (
   <select

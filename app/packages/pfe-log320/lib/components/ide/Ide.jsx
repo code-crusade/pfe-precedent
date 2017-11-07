@@ -32,7 +32,7 @@ class Ide extends PureComponent {
       title: get(exercice, "name"),
       result: "Le résultat sera affiché ici\n\n\n\n\n\n\n\n\n",
       showLoader: false,
-      theme: "vs-dark",
+      theme: "dark",
       disabled: false,
       language: get(exercice, "language") || "csharp",
     };
@@ -116,6 +116,7 @@ class Ide extends PureComponent {
 
   render() {
     const { language, theme, disabled, showLoader, value, result } = this.state;
+    const monacoTheme = { dark: "vs-dark", light: "vs" }[theme] || "vs-dark";
 
     // SplitterLayout is only available in browser. Temporarily use <div> if not available.
 
@@ -123,8 +124,6 @@ class Ide extends PureComponent {
       <Description
         title={this.state.title}
         description={this.state.description}
-        color={theme === "vs" ? "#1E1E1E" : "#FFFFFE"}
-        backgroundColor={theme === "vs" ? "#FFFFFE" : "#1E1E1E"}
       />
     );
 
@@ -141,11 +140,11 @@ class Ide extends PureComponent {
           />
         </div>
         <div className="ide-editor">
-          {showLoader ? <Loading className="loader" theme={theme} /> : null}
+          {showLoader ? <Loading /> : null}
           <MonacoEditor
             className="monaco-editor"
             language={language}
-            theme={theme}
+            theme={monacoTheme}
             value={value}
             options={this.editorOptions}
             editorDidMount={this.editorDidMount}
@@ -158,49 +157,48 @@ class Ide extends PureComponent {
     let ConsoleOutputPanel = (
       <ConsoleOutput
         ref={this.assignConsoleOutputRef}
-        result={result}
+        value={result}
         theme={theme}
       />
     );
 
     let IdePanel =
       typeof SplitterLayout !== "undefined" ? (
-        <div className="resizable-panel">
-          <SplitterLayout
-            className="ide"
-            vertical={true}
-            primaryMinSize={400}
-            secondaryInitialSize={250}
-            onSecondaryPaneSizeChange={this.handleNestedPanelSizeChange}
-          >
-            {EditorPanel}
-            {ConsoleOutputPanel}
-          </SplitterLayout>
-        </div>
+        <SplitterLayout
+          vertical={true}
+          primaryMinSize={400}
+          secondaryInitialSize={250}
+          onSecondaryPaneSizeChange={this.handleNestedPanelSizeChange}
+        >
+          {EditorPanel}
+          {ConsoleOutputPanel}
+        </SplitterLayout>
       ) : (
-        <div className="resizable-panel">
-          <div className="ide">
-            {EditorPanel}
-            {ConsoleOutputPanel}
-          </div>
+        <div className="vertical-layout">
+          {EditorPanel}
+          {ConsoleOutputPanel}
         </div>
       );
 
-    return typeof SplitterLayout !== "undefined" ? (
-      <SplitterLayout
-        primaryIndex={1}
-        percentage={true}
-        primaryMinSize={50}
-        secondaryInitialSize={30}
-        onSecondaryPaneSizeChange={this.handleTopLevelPanelSizeChange}
-      >
-        {DescriptionPanel}
-        {IdePanel}
-      </SplitterLayout>
-    ) : (
-      <div>
-        {DescriptionPanel}
-        {IdePanel}
+    return (
+      <div className={["editor-page", theme].join(" ")}>
+        {typeof SplitterLayout !== "undefined" ? (
+          <SplitterLayout
+            primaryIndex={1}
+            percentage={true}
+            primaryMinSize={50}
+            secondaryInitialSize={30}
+            onSecondaryPaneSizeChange={this.handleTopLevelPanelSizeChange}
+          >
+            {DescriptionPanel}
+            {IdePanel}
+          </SplitterLayout>
+        ) : (
+          <div className="vertical-layout">
+            {DescriptionPanel}
+            {IdePanel}
+          </div>
+        )}
       </div>
     );
   }

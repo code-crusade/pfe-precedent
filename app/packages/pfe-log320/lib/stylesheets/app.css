@@ -100,6 +100,32 @@ textarea {
   width: 100%;
 }
 
+.problem-description {
+  min-width: 400;
+  display: flex;
+  flex-direction: column;
+}
+
+.problem-description-title {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.problem-description-text {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.light .problem-description-text {
+  color: #1e1e1e;
+  background-color: #fffffe;
+}
+
+.dark .problem-description-text {
+  color: #fffffe;
+  background-color: #1e1e1e;
+}
+
 .ide {
   display: flex;
   flex-direction: column;
@@ -113,6 +139,33 @@ textarea {
 .ide-editor {
   position: relative;
   flex: 1 1 auto;
+}
+
+.ide-editor .spinner {
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.ide-editor .spinner div {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+}
+
+.ide-editor .spinner div:last-child {
+  margin-right: 0;
+}
+
+.light .ide-editor .spinner div {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+.dark .ide-editor .spinner div {
+  background-color: rgba(255, 255, 255, 0.35);
 }
 
 .console-output {
@@ -136,14 +189,6 @@ textarea {
   position: relative;
   padding: 15px;
   color: #000;
-}
-
-.loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
 }
 
 .react-monaco-editor-container {
