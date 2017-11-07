@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
-import MonacoEditor from 'react-monaco-editor';
-import { Loading } from 'meteor/vulcan:core';
-import get from 'lodash/get';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { Meteor } from "meteor/meteor";
+import MonacoEditor from "react-monaco-editor";
+import { Loading } from "meteor/vulcan:core";
+import get from "lodash/get";
 
-import { SupportedLanguages } from '../../modules/supportedLanguages.js';
-import Outputer from './Outputer';
-import Selecter from './Selecter';
-import Theme from './Theme';
-import Description from './Description';
+import { SupportedLanguages } from "../../modules/supportedLanguages.js";
+import Outputer from "./Outputer";
+import Selecter from "./Selecter";
+import Theme from "./Theme";
+import Description from "./Description";
 
 const propTypes = {
   location: PropTypes.object,
@@ -18,22 +18,21 @@ const propTypes = {
 const defaultProps = {
   location: {},
 };
+
 class Ide extends PureComponent {
   constructor(props) {
     super(props);
-    const exercice = get(props.location, 'state.exercice');
+    const exercice = get(props.location, "state.exercice");
     this.state = {
       value:
-        get(exercice, 'exercice') || SupportedLanguages.csharp.codeTemplate,
-      description:
-        get(exercice, 'description'),
-      title:
-        get(exercice, 'name'),
-      result: 'Le résultat sera affiché ici',
+        get(exercice, "exercice") || SupportedLanguages.csharp.codeTemplate,
+      description: get(exercice, "description"),
+      title: get(exercice, "name"),
+      result: "Le résultat sera affiché ici\n\n\n\n\n\n\n\n\n",
       showLoader: false,
-      theme: 'vs-dark',
+      theme: "vs-dark",
       disabled: false,
-      language: get(exercice, 'language') || 'csharp',
+      language: get(exercice, "language") || "csharp",
     };
 
     this.editorOptions = {
@@ -62,7 +61,7 @@ class Ide extends PureComponent {
     event.preventDefault();
     this.setState({ showLoader: true, disabled: true });
     Meteor.call(
-      'execute',
+      "execute",
       this.state.language,
       this.state.value,
       SupportedLanguages[this.state.language].fixtureTemplate,
@@ -90,10 +89,11 @@ class Ide extends PureComponent {
             type="submit"
             value="Exécuter!"
           />
-          <Description title={this.state.title}
+          <Description
+            title={this.state.title}
             description={this.state.description}
-            color={theme === 'vs' ? '#1E1E1E' : '#FFFFFE'}
-            backgroundColor={theme === 'vs' ? '#FFFFFE' : '#1E1E1E'}
+            color={theme === "vs" ? "#1E1E1E" : "#FFFFFE"}
+            backgroundColor={theme === "vs" ? "#FFFFFE" : "#1E1E1E"}
           />
           <div className="editor">
             {showLoader ? <Loading className="loader" theme={theme} /> : null}
@@ -111,11 +111,7 @@ class Ide extends PureComponent {
           <br />
         </form>
         <br />
-        <Outputer
-          result={result}
-          color={theme === 'vs' ? '#1E1E1E' : '#FFFFFE'}
-          backgroundColor={theme === 'vs' ? '#FFFFFE' : '#1E1E1E'}
-        />
+        <Outputer result={result} theme={theme} />
       </div>
     );
   }

@@ -75,7 +75,7 @@ textarea {
   margin: 0 auto;
 }
 
-.outputer {
+.console-output {
   text-align: center;
   border: none;
   font-family: monospace;
@@ -119,4 +119,12 @@ textarea {
 
 .login {
   display: inline-block;
+}
+
+.green-background {
+  background-color: green;
+}
+
+.red-background {
+  background-color: red;
 }
