@@ -100,6 +100,10 @@ textarea {
   width: 100%;
 }
 
+.dark .splitter-layout > .layout-splitter {
+  background-color: #444;
+}
+
 .problem-description {
   min-width: 400;
   display: flex;
@@ -191,7 +195,7 @@ textarea {
   color: #000;
 }
 
-.react-monaco-editor-container {
+.splitter-layout .react-monaco-editor-container {
   position: absolute;
   overflow: hidden;
 }
@@ -200,10 +204,11 @@ textarea {
   display: inline-block;
 }
 
-.green-background {
-  background-color: green;
+.test-passed {
+  color: green !important;
+  font-weight: bold;
 }
 
-.red-background {
-  background-color: red;
+.test-passed-margin {
+  background-color: green;
 }

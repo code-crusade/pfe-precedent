@@ -120,14 +120,14 @@ class Ide extends PureComponent {
 
     // SplitterLayout is only available in browser. Temporarily use <div> if not available.
 
-    let DescriptionPanel = (
+    const DescriptionPanel = (
       <Description
         title={this.state.title}
         description={this.state.description}
       />
     );
 
-    let EditorPanel = (
+    const EditorPanel = (
       <form className="ide" onSubmit={this.handleSubmit}>
         <div className="ide-controls">
           <Selecter onChange={this.handleLanguageChange} value={language} />
@@ -142,7 +142,6 @@ class Ide extends PureComponent {
         <div className="ide-editor">
           {showLoader ? <Loading /> : null}
           <MonacoEditor
-            className="monaco-editor"
             language={language}
             theme={monacoTheme}
             value={value}
@@ -154,7 +153,7 @@ class Ide extends PureComponent {
       </form>
     );
 
-    let ConsoleOutputPanel = (
+    const ConsoleOutputPanel = (
       <ConsoleOutput
         ref={this.assignConsoleOutputRef}
         value={result}
@@ -162,7 +161,7 @@ class Ide extends PureComponent {
       />
     );
 
-    let IdePanel =
+    const IdePanel =
       typeof SplitterLayout !== "undefined" ? (
         <SplitterLayout
           vertical={true}
