@@ -133,7 +133,7 @@ class ConsoleOutput extends PureComponent {
     );
   };
 
-  layoutEditor = () => {
+  relayoutComponent = () => {
     this.editor && this.editor.layout();
   };
 

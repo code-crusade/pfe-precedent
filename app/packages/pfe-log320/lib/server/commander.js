@@ -8,6 +8,7 @@ Meteor.methods({
       "docker-compose",
       [
         "run",
+        "--rm",
         language,
         "-t",
         SupportedLanguages[language].framework,

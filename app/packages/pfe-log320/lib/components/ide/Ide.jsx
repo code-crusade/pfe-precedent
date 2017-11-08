@@ -45,7 +45,7 @@ class Ide extends PureComponent {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.handleWindowResize);
+    window.addEventListener("resize", this.relayoutComponents);
 
     // SplitterLayout requires window to be imported, which is only available in browser.
     // Import the SplitterLayout component at runtime, when this component did mount,
@@ -60,7 +60,7 @@ class Ide extends PureComponent {
   };
 
   assignConsoleOutputRef = component => {
-    this.consoleOutput = component;
+    this.consoleOutputComponent = component;
   };
 
   handleEditorValueChange = value => {
@@ -98,20 +98,17 @@ class Ide extends PureComponent {
   };
 
   handleTopLevelPanelSizeChange = () => {
-    this.redoEditorsLayout();
+    window && window.dispatchEvent(new Event("resize"));
   };
 
   handleNestedPanelSizeChange = () => {
-    this.redoEditorsLayout();
+    window && window.dispatchEvent(new Event("resize"));
   };
 
-  handleWindowResize = () => {
-    this.redoEditorsLayout();
-  };
-
-  redoEditorsLayout = () => {
+  relayoutComponents = () => {
     this.editor && this.editor.layout();
-    this.consoleOutput && this.consoleOutput.layoutEditor();
+    this.consoleOutputComponent &&
+      this.consoleOutputComponent.relayoutComponent();
   };
 
   render() {
