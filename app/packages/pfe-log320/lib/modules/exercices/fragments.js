@@ -13,6 +13,7 @@ registerFragment(`
       displayName
     }
     name
+    summary
     description
     language
     exercice

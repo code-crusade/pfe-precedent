@@ -49,6 +49,15 @@ const schema = {
     insertableBy: ['members'],
     editableBy: ['members'],
   },
+  summary: {
+    label: 'Résumé',
+    type: String,
+    optional: false,
+    viewableBy: ['guests'],
+    insertableBy: ['members'],
+    editableBy: ['members'],
+    control: 'textarea',
+  },
   description: {
     label: 'Description',
     type: String,

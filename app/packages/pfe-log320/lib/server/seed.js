@@ -9,6 +9,8 @@ import { newMutation } from "meteor/vulcan:core";
 const seedData = [
   {
     name: "Exercice 1",
+    summary: "Cet exercice consiste en la création d'un algorithme de génération d'un nombre\n" +
+      "donné d'éléments de la suite de Fibonacci.",
     description:
       "# Description de l'exercice\n" +
       "\n" +
@@ -49,26 +51,25 @@ const seedData = [
       "</table>\n",
     language: "cpp",
     exercice:
-      "class Money\n" +
-      "{\n" +
-      "public:\n" +
-      "    Money() : _money(9) {}\n" +
-      "    virtual ~Money() {}\n" +
-      "    int getMoney() { return _money; }\n" +
-      "    \n" +
-      "    void addMoney(int amount)\n" +
-      "    {\n" +
-      "        _money += amount;\n" +
-      "    }\n" +
-      "\n" +
-      "private:\n" +
-      "    int _money;\n" +
-      "};\n",
+    "using namespace std;\n" +
+    "\n" +
+    "class Exercice\n" +
+    "{\n" +
+    "public:\n" +
+    "    Exercice() : {}\n" +
+    "    virtual ~Exercice() {}\n" +
+    "\n" +
+    "    std::vector<int> fibonacci(int n0, int n1, int count)\n" +
+    "    {\n" +
+    "    \n" +
+    "    }\n" +
+    "};\n",
     difficulty: "easy",
     testType: "practice",
   },
   {
     name: "Exercice 2",
+    summary: "Un simple exercice d'addition.",
     description: "Exercice en Java",
     language: "java",
     exercice:
@@ -92,6 +93,7 @@ const seedData = [
   {
     name: "Exercice 3",
     description: "Exercice en Python",
+    summary: "Un simple exercice d'addition.",
     language: "python",
     exercice:
       "class Money:\n" +
@@ -106,6 +108,7 @@ const seedData = [
   },
   {
     name: "Exercice 4",
+    summary: "Un simple exercice d'addition.",
     description: "Exercice en C#",
     language: "csharp",
     exercice:

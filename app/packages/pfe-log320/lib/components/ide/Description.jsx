@@ -7,8 +7,8 @@ import CodeBlock from "./CodeBlock.jsx";
 let ScrollArea;
 
 const propTypes = {
-  description: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  title: PropTypes.string,
 };
 
 class Description extends React.PureComponent {
@@ -21,8 +21,6 @@ class Description extends React.PureComponent {
   };
 
   relayoutComponent = () => {
-    console.log("relayoutComponent");
-    console.log(this.scrollAreaComponent);
     this.scrollAreaComponent &&
       this.scrollAreaComponent.content &&
       this.scrollAreaComponent.wrapper &&

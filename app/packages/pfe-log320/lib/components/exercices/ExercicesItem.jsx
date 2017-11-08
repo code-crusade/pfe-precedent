@@ -72,8 +72,8 @@ const ExerciceItem = ({ exercice, currentUser }) => (
     </h2>
 
     <dl className="row">
-      <dt className="col-sm-3">Description:</dt>
-      <dd className="col-sm-9">{exercice.description}</dd>
+      <dt className="col-sm-3">Résumé:</dt>
+      <dd className="col-sm-9">{exercice.summary}</dd>
 
       <dt className="col-sm-3">Language:</dt>
       <dd className="col-sm-9">{langValueToLabel[exercice.language]}</dd>
