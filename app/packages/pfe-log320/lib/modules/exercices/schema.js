@@ -31,9 +31,9 @@ const schema = {
           {
             fields: context.Users.getViewableFields(
               context.currentUser,
-              context.Users,
+              context.Users
             ),
-          },
+          }
         );
       },
       addOriginalField: true,
@@ -76,7 +76,7 @@ const schema = {
     editableBy: ['members'],
     control: 'select',
     form: {
-      options: function () {
+      options: function() {
         // options for the select form control
         return [
           { value: 'csharp', label: 'C# Mono 4.8' },
@@ -105,9 +105,10 @@ const schema = {
     editableBy: ['members'],
     control: 'select',
     form: {
-      options: function () {
+      options: function() {
         // options for the select form control
         return [
+          { value: 'veryEasy', label: 'Très Facile' },
           { value: 'easy', label: 'Facile' },
           { value: 'medium', label: 'Moyen' },
           { value: 'hard', label: 'Difficile' },
@@ -125,7 +126,7 @@ const schema = {
     editableBy: ['members'],
     control: 'radiogroup',
     form: {
-      options: function () {
+      options: function() {
         // options for the select form control
         return [
           { value: 'practice', label: 'Pratique' },
