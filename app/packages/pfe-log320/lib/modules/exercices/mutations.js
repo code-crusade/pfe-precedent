@@ -68,7 +68,7 @@ const mutations = {
   },
 
   remove: {
-    name: 'exercices',
+    name: 'exercicesDelete',
 
     check(user, document) {
       if (!user || !document) return false;

@@ -3,12 +3,14 @@ import { Components, withCurrentUser, AdminColumns } from 'meteor/vulcan:core';
 import { FormattedMessage } from 'meteor/vulcan:i18n';
 import Users from 'meteor/vulcan:users';
 import UserImport from 'meteor/pfe-log320/lib/components/userImport/UserImport';
+import UserDelete from 'meteor/pfe-log320/lib/components/userDelete/UserDelete';
 
 import '../modules/columns.js';
 
 const AdminHome = ({ currentUser }) => (
   <div className="admin-home page">
     <UserImport currentUser={currentUser} />
+    <UserDelete currentUser={currentUser} />
     <Components.ShowIf
       check={Users.isAdmin}
       document={currentUser}
