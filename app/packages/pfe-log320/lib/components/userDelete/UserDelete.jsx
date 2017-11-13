@@ -13,10 +13,12 @@ class UserDelete extends PureComponent {
   state = { finished: false };
 
   deleteUsers = file => {
-    this.setState({ finished: false });
-    Meteor.call('deleteUsers', () => {
-      this.setState({ finished: true });
-    });
+    if (confirm('Êtes-vous sûre de vouloir supprimer les utilisateurs?')) {
+      this.setState({ finished: false });
+      Meteor.call('deleteUsers', () => {
+        this.setState({ finished: true });
+      });
+    }
   };
 
   render() {
