@@ -7,4 +7,20 @@ function sortByName(parameters, terms) {
   };
 }
 
+function FilterEasy(parameters, terms) {
+  return {
+    selector: { difficulty: 'easy' },
+    options: { ...parameters.options },
+  };
+}
+
+function FilterHard(parameters, terms) {
+  return {
+    selector: { difficulty: 'hard' },
+    options: { ...parameters.options },
+  };
+}
+
+
 addCallback('exercices.parameters', sortByName);
+//addCallback('exercices.parameters', FilterHard);

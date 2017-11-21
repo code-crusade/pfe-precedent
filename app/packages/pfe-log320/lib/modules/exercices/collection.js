@@ -22,4 +22,5 @@ const Exercices = createCollection({
   mutations,
 });
 
+
 export default Exercices;
