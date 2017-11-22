@@ -20,6 +20,37 @@ Meteor.methods({
       { cwd: Meteor.settings.cliPath }
     );
 
-    return `${dockerCompose.stdout}${dockerCompose.stderr}`;
+    const file = `${Meteor.settings.tempPath}/${SupportedLanguages[language].id}/code.${SupportedLanguages[language].extension}`;
+    let quality;
+    const fs = require('fs-extra');
+    fs.outputFile(file, code)
+      .then(() => {
+        quality = spawnSync('sonar-scanner.bat', 
+          [`-Dsonar.projectKey=${SupportedLanguages[language].extension}`, '-Dsonar.sources=./'], 
+          { cwd:`${Meteor.settings.tempPath}/${SupportedLanguages[language].id}`}
+        );
+      })
+      .catch(err => {
+        quality = err;
+      })
+
+    return `${dockerCompose.stdout}${dockerCompose.stderr}\n${quality ? quality : ''}`;
+  },
+  quality: id => {
+    return fetch(
+      `http://localhost:9000/api/measures/component?component=${id}&metricKeys=ncloc,complexity,violations`)
+      .then(res => {
+        if(!res.ok)
+          throw Error('Network request failed');
+
+        return res;
+      })
+      .then(data => data.json())
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        return err;
+      })
   },
 });
