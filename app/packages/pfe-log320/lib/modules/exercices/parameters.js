@@ -15,7 +15,8 @@ function FilterEasy(parameters, terms) {
 }
 
 function FilterHard(parameters, terms) {
-  return {
+  //console.log(terms);
+  return {    
     selector: { difficulty: 'hard' },
     options: { ...parameters.options },
   };

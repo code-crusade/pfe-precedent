@@ -15,7 +15,7 @@ import {
 import Exercices from '../../modules/exercices/collection.js';
 import ExercicesItem from './ExercicesItem.jsx';
 import ExercicesNewForm from './ExercicesNewForm.jsx';
-
+import ExerciceFilter from "../../modules/exercices/exerciceFilterForm";
 
 const propTypes = {
   results: PropTypes.array,
@@ -36,25 +36,41 @@ const ExercicesList = ({
 }) => (
   <div>
     <div style={{ maxWidth: '500px', margin: '20px auto' }}>
-    <select>
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="mercedes">Mercedes</option>
-      <option value="audi">Audi</option>
-    </select>
       {loading ? (
         <Loading />
       ) : (
         <div className="exercices">
           {/* new document form */}
           <ExercicesNewForm />
-
+          <ExerciceFilter />
+          {/*<div>
+            <label for="filter">Filtre : </label>
+            <select name="filter" id="filter" onChange={ e => { 
+              
+              if(e.target.value === "none"){
+                
+              } else{
+                const difficultyFilterState = e.target.value;
+                
+                addCallback('exercices.parameters', FilterDifficulty);
+                location.reload();                
+              }
+              
+              }}> 
+              <option value="none"></option>
+              <option value="veryEasy">Très Facile</option>
+              <option value="easy">Facile</option>
+              <option value="medium">Moyen</option>
+              <option value="hard">Difficile</option>
+              <option value="veryHard">Très Difficile</option>
+            </select>
+            </div>*/}
           {/* documents list */}
           {results.map(exercice => (
             <ExercicesItem
               key={exercice._id}
               exercice={exercice}
-              currentUser={currentUser}
+              currentUser={currentUser}              
             />
           ))}
 
@@ -80,6 +96,7 @@ const ExercicesList = ({
 
 const options = {
   collection: Exercices,
+  queryName: 'ExercicesFilter',
   fragmentName: 'ExercicesItemFragment',
   limit: 5,
 };
