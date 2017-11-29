@@ -52,10 +52,12 @@ class ConsoleOutput extends PureComponent {
     // - <PASSED::> / <FAILED::> Mark the test execution summary
     // - <COMPLETEDIN::> Marks the end of a test case.
     for (let i = 0; i < lines.length; ++i) {
+      console.log(`Testing line: ${lines[i]}`);
       const matches = lines[i].match(
         /^<(DESCRIBE|IT|PASSED|COMPLETEDIN|LOG)::(.*?)>(.*)/
       );
       if (matches !== null) {
+        console.log(matches);
         const range = new this.monaco.Range(i + 1, 1, i + 1, matches[3].length);
         let displayLine = matches[3].replace(/<:LF:>/g, "\n");
         switch (matches[1]) {

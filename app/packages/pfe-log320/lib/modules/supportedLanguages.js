@@ -2,7 +2,6 @@ export const SupportedLanguages = {
   csharp: {
     id: "csharp",
     name: "C# Mono 4.8",
-    extension: "cs",
     framework: "nunit",
     codeTemplate: [
       "public class Money",
@@ -39,7 +38,6 @@ export const SupportedLanguages = {
   cpp: {
     id: "cpp",
     name: "C++ 14",
-    extension: "cpp",
     framework: "igloo",
     codeTemplate: [
       "class Exercice",
@@ -70,7 +68,6 @@ export const SupportedLanguages = {
   python: {
     id: "python",
     name: "Python 2.7.6",
-    extension: "py",
     framework: "cw",
     codeTemplate: [
       "class Money:",
@@ -96,7 +93,6 @@ export const SupportedLanguages = {
   java: {
     id: "java",
     name: "Java 1.8",
-    extension: "java",
     codeTemplate: [
       "public class Money",
       "{",

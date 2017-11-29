@@ -93,21 +93,8 @@ class Ide extends PureComponent {
         }
 
         this.setState({ showLoader: false, disabled: false, result: succ });
-        this.getQuality();
       }
     );
-  };
-
-  getQuality = () => {
-    this.setState({result: this.state.result + '\n Analyse de la qualité en cours...\n'});
-    Meteor.call("quality", SupportedLanguages[this.state.language].extension, (err, succ) => {
-      if (err) {
-        console.warn(err);
-        return;
-      }
-
-      this.setState({result: this.state.result + JSON.stringify(succ)});
-    });
   };
 
   handleTopLevelPanelSizeChange = () => {
