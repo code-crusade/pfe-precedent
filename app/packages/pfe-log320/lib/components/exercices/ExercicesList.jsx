@@ -3,7 +3,7 @@
  * Wrapped with the "withList" and "withCurrentUser" containers.
  */
 
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
   Components,
@@ -11,6 +11,8 @@ import {
   withCurrentUser,
   Loading,
 } from "meteor/vulcan:core";
+
+import { Link } from "react-router";
 
 import Exercices from "../../modules/exercices/collection.js";
 import ExercicesItem from "./ExercicesItem.jsx";
@@ -32,7 +34,17 @@ const ExercicesList = ({
   count,
   totalCount,
 }) => (
-  <div>
+  <div style={{ maxWidth: "500px", margin: "20px auto" }}>
+    {Exercices.options.mutations.new.check(currentUser) && (
+      <Link to={{ pathname: "newExercice" }}>
+        <button
+          className="btn btn-default"
+          style={{ marginBottom: "1.5em", width: "100%" }}
+        >
+          Créer un nouvel exercice
+        </button>
+      </Link>
+    )}
     {loading ? (
       <Loading />
     ) : (

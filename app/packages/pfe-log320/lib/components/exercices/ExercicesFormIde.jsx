@@ -5,6 +5,7 @@ import MonacoEditor from 'react-monaco-editor';
 const propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 const contextTypes = {
@@ -13,7 +14,7 @@ const contextTypes = {
 };
 
 const ExercicesFormIde = (
-  { label, value },
+  { label, value, name },
   { updateCurrentValues, getDocument }
 ) => (
   <div className="form-group row">
@@ -22,11 +23,11 @@ const ExercicesFormIde = (
       <MonacoEditor
         className="monaco-editor"
         width="100%"
-        height="400"
+        height="500"
         language={getDocument().language}
         theme={'vs-dark'}
         value={value}
-        onChange={value => updateCurrentValues({ exercice: value })}
+        onChange={value => updateCurrentValues({ [name]: value })}
       />
     </div>
   </div>

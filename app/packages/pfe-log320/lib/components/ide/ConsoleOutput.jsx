@@ -4,6 +4,7 @@ import MonacoEditor from "react-monaco-editor";
 
 const propTypes = {
   value: PropTypes.string,
+  language: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
 };
 
@@ -32,7 +33,8 @@ class ConsoleOutput extends PureComponent {
   };
 
   componentWillReceiveProps(nextProps) {
-    this.monaco && this.generateEditorDecorations(nextProps.value);
+    if (this.monaco && this.props.value != nextProps.value)
+      this.generateEditorDecorations(nextProps.value);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,84 +42,238 @@ class ConsoleOutput extends PureComponent {
   }
 
   generateEditorDecorations = value => {
-    const lines = value.split("\n");
+    // List of possible decoration options (Monaco): https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.imodeldecorationoptions.html
 
-    let displayValue = "";
-    let editorDecorations = [];
+    let testResults = {
+      type: "RESULTS",
+      name: "Test Results:",
+      parent: null,
+      childs: [],
+      passed: true,
+      consoleLog: "",
+      completedIn: null,
+    };
+    let currentItem = testResults;
+    let specialLogs = new Map();
 
-    let currentTestName = "";
     // Expectations are:
     // - <DESCRIBE::> Marks the beginning of a test case
     // - <IT::> Marks the execution of a test
     // - <PASSED::> / <FAILED::> Mark the test execution summary
     // - <COMPLETEDIN::> Marks the end of a test case.
-    for (let i = 0; i < lines.length; ++i) {
-      console.log(`Testing line: ${lines[i]}`);
-      const matches = lines[i].match(
-        /^<(DESCRIBE|IT|PASSED|COMPLETEDIN|LOG)::(.*?)>(.*)/
-      );
-      if (matches !== null) {
-        console.log(matches);
-        const range = new this.monaco.Range(i + 1, 1, i + 1, matches[3].length);
-        let displayLine = matches[3].replace(/<:LF:>/g, "\n");
-        switch (matches[1]) {
-          case "DESCRIBE":
-            currentTestName = matches[3];
-            displayLine = `TEST: ${displayLine}`;
-            editorDecorations.push({
-              range: range,
-              options: {
-                isWholeLine: true,
-                className: "test-describe",
-                glyphMarginHoverMessage: currentTestName,
-              },
-            });
-            break;
-          case "IT":
-            displayLine = `  ${displayLine}`;
-            editorDecorations.push({
-              range: range,
-              options: {
-                isWholeLine: true,
-                className: "test-it",
-                glyphMarginClassName: "",
-                glyphMarginHoverMessage: currentTestName,
-              },
-            });
-            break;
-          case "PASSED":
-            displayLine = `  ${displayLine}`;
-            editorDecorations.push({
-              range: range,
-              options: {
-                isWholeLine: true,
-                inlineClassName: "test-passed",
-                glyphMarginClassName: "test-passed-margin",
-                glyphMarginHoverMessage: currentTestName,
-              },
-            });
-            break;
-          case "COMPLETEDIN":
-            displayLine = `  Completed in: ${displayLine} milliseconds`;
-            editorDecorations.push({
-              range: range,
-              options: {
-                isWholeLine: true,
-                className: "test-completedin",
-                glyphMarginHoverMessage: currentTestName,
-              },
-            });
-            break;
-          case "LOG":
-            displayLine = `LOG${matches[2]}: ${displayLine}`;
-            break;
-          default:
-            break;
-        }
-        displayValue += `${displayLine}\n`;
-      } else {
-        displayValue += `> ${lines[i]}\n`;
+    // - <LOG::(.*?)> Log of a certain type (Apparently something unique to Java but there is no
+    //   harm in enable it for all languages)
+    //
+    // Language specifics:
+    // - The C# tags engine lags behind the other ones, as it doesn't add an endline character
+    //   before each tag. See https://github.com/Codewars/codewars-runner-cli/issues/410 for tracking.
+    //
+    let tagMatcher =
+      this.props.language === "csharp"
+        ? /^(.*)<(DESCRIBE|IT|PASSED|FAILED|COMPLETEDIN|LOG)::(.*?)>(.*)$/gm
+        : /^(.*)\n?<(DESCRIBE|IT|PASSED|FAILED|COMPLETEDIN|LOG)::(.*?)>(.*)$/gm;
+    let matches;
+    let lastSuccessfulMatchIndex = 0;
+    while ((matches = tagMatcher.exec(value))) {
+      lastSuccessfulMatchIndex = tagMatcher.lastIndex;
+
+      // Extract the different values matched by the regex
+      const pre = matches[1];
+      const tag = matches[2];
+      const option = matches[3];
+      const details = matches[4].replace(/<:LF:>/g, "\n");
+
+      // In every case, whatever appears before the tag element can be assumed to be part of traditional console log.
+      // Add to the console log if compose of something else than blank spaces.
+      if (!pre.match(/^\s*$/)) currentItem.consoleLog += pre;
+
+      switch (tag) {
+        case "DESCRIBE":
+          const testClass = {
+            type: "TEST_CLASS",
+            name: `Test Class: ${details}`,
+            parent: currentItem,
+            childs: [],
+            passed: true,
+            consoleLog: "",
+            completedin: null,
+          };
+          currentItem.childs.push(testClass);
+          currentItem = testClass;
+          break;
+        case "IT":
+          const test = {
+            type: "TEST",
+            name: `Test: ${details}`,
+            parent: currentItem,
+            childs: [],
+            passed: true,
+            consoleLog: "",
+            completedin: null,
+          };
+          currentItem.childs.push(test);
+          currentItem = test;
+          break;
+        case "PASSED":
+          currentItem.childs.push({
+            type: "PASS_FAIL_MESSAGE",
+            message: details,
+            parent: currentItem,
+            passed: true,
+          });
+          break;
+        case "FAILED":
+          currentItem.childs.push({
+            type: "PASS_FAIL_MESSAGE",
+            message: details,
+            parent: currentItem,
+            passed: false,
+          });
+          for (let item = currentItem; item; item = item.parent) {
+            item.passed = false;
+          }
+          break;
+        case "COMPLETEDIN":
+          if (details) currentItem.completedIn = details;
+          currentItem = currentItem.parent || currentItem;
+          break;
+        case "LOG":
+          specialLogs.set(option, (specialLogs.get(option) || "") + details);
+          break;
+        default:
+          // In case a tag is not handled...
+          console.error(`Unhandled tag in console output: ${tag}`); // eslint-disable-line no-console
+          break;
       }
+    }
+
+    // Everything from tagMatcher's last match onward is part of the testResults consoleLog... probably.
+    const remainderLog = value.substr(lastSuccessfulMatchIndex);
+    if (!remainderLog.match(/^\s*$/)) testResults.consoleLog += remainderLog;
+
+    // Values used throughout the rest of this sequence
+    let displayValue = "";
+    let totalEndlinesCount = 0;
+    let editorDecorations = [];
+
+    // Write all special logs at the top of the console.
+    if (specialLogs) {
+      let specialLogsStr = "";
+      for (let [k, v] of specialLogs.entries()) {
+        specialLogsStr += v.replace(/^/gm, `${k}: `);
+      }
+
+      const specialLogsEnglineCount =
+        (specialLogsStr.match(/\n/g) || []).length + 1;
+      displayValue += `${specialLogsStr}\n`;
+
+      const range = new this.monaco.Range(
+        totalEndlinesCount + 1,
+        1,
+        totalEndlinesCount + specialLogsEnglineCount,
+        specialLogsStr.length - specialLogsStr.lastIndexOf("\n")
+      );
+
+      editorDecorations.push({
+        range: range,
+        options: {
+          isWholeLine: true,
+          inlineClassName: "console-secondary-log",
+        },
+      });
+
+      totalEndlinesCount += specialLogsEnglineCount;
+    }
+
+    // With everything organized in a hierarchical fashion, and with some additional information
+    // gathered from this first pass, creating the final format is a simple matter.
+    if (testResults.childs.length > 0) {
+      // Define recursion function for tree elements depth first parcour.
+      const recurse = (item, indent = "") => {
+        // Current item header
+        let str =
+          `${indent}${item.name}\n` +
+          `${item.consoleLog.replace(/^(?=.*\n)/gm, `${indent}\t> `)}\n`;
+
+        displayValue += str;
+
+        // Create a range spanning all the lines currently being formatted:
+        // startLineNumber = Number of lines previous to this step + 1
+        // startColumn = 1
+        // endLineNumber = startLineNumber (We only want to affect the Name line)
+        // endColumn = Length of the first line from this step.
+        const range = new this.monaco.Range(
+          totalEndlinesCount + 1,
+          1,
+          totalEndlinesCount + 1,
+          str.indexOf("\n")
+        );
+
+        editorDecorations.push({
+          range: range,
+          options: {
+            isWholeLine: true,
+            inlineClassName: item.passed ? "test-passed" : "test-failed",
+          },
+        });
+
+        totalEndlinesCount += (str.match(/\n/g) || []).length;
+
+        // Explore childs
+        for (let i = 0; i < item.childs.length; ++i) {
+          const child = item.childs[i];
+          switch (child.type) {
+            case "RESULTS":
+              //eslint-disable-next-line no-console
+              console.error(
+                "Unexpected RESULTS node in test results tree non-root position."
+              );
+              break;
+            case "TEST_CLASS":
+            case "TEST":
+              recurse(child, `${indent}\t`);
+              break;
+            case "PASS_FAIL_MESSAGE":
+              str = `${indent}\t${child.passed
+                ? `Passed: ${child.message}`
+                : `Failed:\n${child.message.replace(
+                    /^/gm,
+                    `${indent}\t\t`
+                  )}`}\n`;
+
+              displayValue += str;
+
+              // Create a range spanning all the lines currently being formatted:
+              // startLineNumber = Number of lines previous to this step + 1
+              // startColumn = 1
+              // endLineNumber = startLineNumber (We only want to affect the first line)
+              // endColumn = Length of the first line from this step.
+              const range = new this.monaco.Range(
+                totalEndlinesCount + 1,
+                1,
+                totalEndlinesCount + 1,
+                str.indexOf("\n")
+              );
+
+              editorDecorations.push({
+                range: range,
+                options: {
+                  isWholeLine: true,
+                  inlineClassName: child.passed ? "test-passed" : "test-failed",
+                },
+              });
+
+              totalEndlinesCount += (str.match(/\n/g) || []).length;
+              break;
+          }
+        }
+      };
+
+      // Kick off the recursive algorithm.
+      recurse(testResults);
+    } else {
+      displayValue += testResults.consoleLog;
+      totalEndlinesCount += (testResults.consoleLog.match(/\n/g) || []).length;
     }
 
     this.setState({

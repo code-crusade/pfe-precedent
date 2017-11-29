@@ -19,5 +19,6 @@ registerFragment(`
     exercice
     difficulty
     testType
+    tests
   }
 `);
