@@ -3,7 +3,7 @@
  * Wrapped with the "withList" and "withCurrentUser" containers.
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Components,
@@ -14,8 +14,6 @@ import {
 
 import Exercices from '../../modules/exercices/collection.js';
 import ExercicesItem from './ExercicesItem.jsx';
-import ExercicesNewForm from './ExercicesNewForm.jsx';
-import ExerciceFilter from "../../modules/exercices/exerciceFilterForm";
 
 const propTypes = {
   results: PropTypes.array,
@@ -34,37 +32,12 @@ const ExercicesList = ({
   count,
   totalCount,
 }) => (
-  <div>
-    <div style={{ maxWidth: '500px', margin: '20px auto' }}>
+    <div>
+    <div>   
       {loading ? (
         <Loading />
       ) : (
-        <div className="exercices">
-          {/* new document form */}
-          <ExercicesNewForm />
-          <ExerciceFilter />
-          {/*<div>
-            <label for="filter">Filtre : </label>
-            <select name="filter" id="filter" onChange={ e => { 
-              
-              if(e.target.value === "none"){
-                
-              } else{
-                const difficultyFilterState = e.target.value;
-                
-                addCallback('exercices.parameters', FilterDifficulty);
-                location.reload();                
-              }
-              
-              }}> 
-              <option value="none"></option>
-              <option value="veryEasy">Très Facile</option>
-              <option value="easy">Facile</option>
-              <option value="medium">Moyen</option>
-              <option value="hard">Difficile</option>
-              <option value="veryHard">Très Difficile</option>
-            </select>
-            </div>*/}
+        <div className="exercices">         
           {/* documents list */}
           {results.map(exercice => (
             <ExercicesItem
@@ -96,7 +69,6 @@ const ExercicesList = ({
 
 const options = {
   collection: Exercices,
-  queryName: 'ExercicesFilter',
   fragmentName: 'ExercicesItemFragment',
   limit: 5,
 };

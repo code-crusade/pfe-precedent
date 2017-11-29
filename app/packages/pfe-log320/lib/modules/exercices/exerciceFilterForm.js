@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Components } from 'meteor/vulcan:core';
+import { Components  } from 'meteor/vulcan:core';
 import { withRouter } from 'react-router';
 
 const difficulties = [
@@ -18,46 +18,59 @@ const difficulties = [
     { value: 'java', label: 'Java 1.8' },
   ];
   //[]
+
+
 class ExerciceFilter extends Component {
     constructor(props) {
         super(props);
-        this.difficultyChange = this.difficultyChange.bind(this);
-        let state = props.location.query["difficultyFilter"];  
-        if(state === undefined) {
+        this.updateURL = this.updateURL.bind(this); 
+        this.difficultyChange = this.difficultyChange.bind(this); 
+        this.toggleLanguage = this.toggleLanguage.bind(this); 
+        let difficultyFilter = props.location.query["difficultyFilter"];  
+
+        if(difficultyFilter === undefined) {
             this.state = {difficultyFilter: "none"};
         } else {
-            this.state = {difficultyFilter: state};
-        }  
+            this.state = {difficultyFilter: difficultyFilter};
+        }          
         
-        //console.log(this.state["difficultyFilter"]);
+        language.forEach(({label, value})=> {this.state[value] = (props.location.query[value] == 0) ? (props.location.query[value]) : (1)});
+        
     }
 
-    difficultyChange(e){
-        //console.log(e.target.value);
-        this.setState({difficultyFilter : e.target.value});
-        //console.log(this.state);
-        /*const queryParams = this.props.location.query;
-        console.log(queryParams);
-        if(e.target.value != "none") {
-            queryParams["difficultyFilter"] = e.target.value;
+    updateURL(){
+        let newUrl = `?difficultyFilter=${this.state.difficultyFilter}`; 
+        language.forEach(({label, value})=> {newUrl= newUrl+"&"+value+"="+this.state[value]});
+        this.props.router.replace(newUrl);       
+    }
+
+    difficultyChange(e){        
+        this.state["difficultyFilter"] = e.target.value;                
+        this.updateURL();   
+    }
+
+    toggleLanguage(e){        
+        if(this.state[e.target.name] == 0) {
+            this.state[e.target.name] =1;
+        } else {
+            this.state[e.target.name] = 0;
         }
-
-        const newUrl = `/?${_.map(queryParams, ((value, key) => `${key}=${value}`)).join('&')}`;*/
-        const newUrl = `?difficultyFilter=${e.target.value}`;
-        //console.log(newUrl);
-        this.props.router.replace(newUrl);
+        
+        this.updateURL();
     }
 
-    render() {
+    render() {        
         return (
             <div>
-            <label for="filter">Filtre : </label>
-            <select name="filter" id="filter" onChange={this.difficultyChange}> 
-              {difficulties.map((difficulty, index) => <option value={difficulty.value} >  {difficulty.label} </option> )}             
-            </select>
+            <label htmlFor="filter">Filtre : </label>
+            <select name="filter" id="filter" defaultValue={this.state.difficultyFilter} onChange={this.difficultyChange}> 
+              {difficulties.map((difficulty, index) => <option key={index} value={difficulty.value}>  {difficulty.label} </option> )}             
+            </select>            
+            {language.map((language, index, checked=this.state[language.value]) =><div key={index} style={{ display : 'inline', margin: '5px' }}><label htmlFor={language.value}> {language.label} </label> <input checked={this.state[language.value]==1} onChange={this.toggleLanguage} name={language.value} type="checkbox" /></div>)}    
           </div>
         )
     }
 }
 export default withRouter(ExerciceFilter);
+
 

@@ -4,26 +4,10 @@
  * - single (e.g.: exercicesSingle(_id: String) )
  * - listTotal (e.g.: exercicesTotal )
  */
-import {addGraphQLResolvers, addGraphQLQuery} from 'meteor/vulcan:core'
+
 
 // basic list, single, and total query resolvers
 const resolvers = {
-  filter: {
-    name : 'exercicesfilter',
-    ExercicesFilter(root, {terms}, context) {
-      console.log("Exercice Filter");
-      console.log("Terms : "+terms);
-      const selector = {};
-      console.log(terms.difficultyFilter);
-
-      console.log("Selector : "+JSON.stringify(selector));
-      
-
-      const exercices = context.Exercices.find(selector).fetch();
-      console.log("Nb result : "+ exercices.length);
-      return exercices;
-    },
-  },
   list: {
     name: 'exercicesList',
     resolver(root, { terms = {} }, context, info) {
@@ -32,7 +16,45 @@ const resolvers = {
         {},
         context.currentUser
       );
+      /*
+      console.log("Exercice List");
       console.log("test term : "+JSON.stringify(terms));
+      console.log("test options : "+JSON.stringify(options));   */  
+
+      if(terms.difficultyFilter) {
+        //console.log("difficultyFilter : "+terms.difficultyFilter);
+
+        //[]
+        let selectorPart1={};
+        if(terms.difficultyFilter != "none") {
+          selectorPart1 = { difficulty: terms.difficultyFilter };
+        }
+        
+        let languages = [];
+        if(terms.cpp == 1){
+          languages.push({ "language" : "cpp"});
+        }
+        if(terms.csharp == 1){
+          languages.push({ "language" : "csharp"});
+        }
+
+        if(terms.python == 1) {
+          languages.push({ "language" : "python"});
+        }
+
+        if(terms.java == 1) {
+          languages.push({ "language" : "java"});
+        }        
+
+        if(languages.length >= 1){
+          selector = {$and: [selectorPart1, { $or: languages}]};
+        } else {
+          selector ={$and: [selectorPart1,{ "language" : "" }]};
+        }                
+      }
+
+      //console.log("test selector : "+JSON.stringify(selector));
+
       return context.Exercices.find(selector, options).fetch();
     },
   },
@@ -59,8 +81,5 @@ const resolvers = {
     },
   },
 };
-
-//addGraphQLResolvers(resolvers);
-//addGraphQLQuery(`ExercicesFilter(term: JSON): [Exercices]`);
 
 export default resolvers;
