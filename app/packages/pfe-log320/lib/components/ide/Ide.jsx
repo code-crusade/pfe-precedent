@@ -1,15 +1,16 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Meteor } from "meteor/meteor";
-import { Loading } from "meteor/vulcan:core";
-import MonacoEditor from "react-monaco-editor";
-import get from "lodash/get";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
+import { Loading } from 'meteor/vulcan:core';
+import MonacoEditor from 'react-monaco-editor';
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 
-import { SupportedLanguages } from "../../modules/supportedLanguages.js";
-import Description from "./Description";
-import ConsoleOutput from "./ConsoleOutput";
-import Selecter from "./Selecter";
-import Theme from "./Theme";
+import { SupportedLanguages } from '../../modules/supportedLanguages.js';
+import Description from './Description';
+import ConsoleOutput from './ConsoleOutput';
+import Selecter from './Selecter';
+import Theme from './Theme';
 
 let SplitterLayout;
 
@@ -24,17 +25,19 @@ const defaultProps = {
 class Ide extends PureComponent {
   constructor(props) {
     super(props);
-    const exercice = get(props.location, "state.exercice");
+    const exercice = get(props.location, 'state.exercice');
     this.state = {
       value:
-        get(exercice, "exercice") || SupportedLanguages.csharp.codeTemplate,
-      description: get(exercice, "description"),
-      title: get(exercice, "name"),
-      result: "Le résultat sera affiché ici.",
+        get(exercice, 'exercice') || SupportedLanguages.csharp.codeTemplate,
+      tests:
+        get(exercice, 'tests') || SupportedLanguages.csharp.fixtureTemplate,
+      description: get(exercice, 'description'),
+      title: get(exercice, 'name'),
+      result: 'Le résultat sera affiché ici.',
       showLoader: false,
-      theme: "dark",
+      theme: 'dark',
       disabled: false,
-      language: get(exercice, "language") || "csharp",
+      language: get(exercice, 'language') || 'csharp',
     };
 
     this.editorOptions = {
@@ -45,12 +48,12 @@ class Ide extends PureComponent {
   }
 
   componentDidMount() {
-    window.addEventListener("resize", this.relayoutComponents);
+    window.addEventListener('resize', this.relayoutComponents);
 
     // SplitterLayout requires window to be imported, which is only available in browser.
     // Import the SplitterLayout component at runtime, when this component did mount,
     // then force a new render of this component.
-    SplitterLayout = require("react-splitter-layout").default;
+    SplitterLayout = require('react-splitter-layout').default;
     this.forceUpdate();
   }
 
@@ -71,7 +74,7 @@ class Ide extends PureComponent {
     this.setState({
       language,
       value: SupportedLanguages[language].codeTemplate,
-      result: "Le résultat sera affiché ici.",
+      result: 'Le résultat sera affiché ici.',
     });
   };
 
@@ -83,10 +86,10 @@ class Ide extends PureComponent {
     event.preventDefault();
     this.setState({ showLoader: true, disabled: true });
     Meteor.call(
-      "execute",
+      'execute',
       this.state.language,
       this.state.value,
-      SupportedLanguages[this.state.language].fixtureTemplate,
+      this.state.tests,
       (err, succ) => {
         if (err) {
           console.warn(err);
@@ -99,11 +102,11 @@ class Ide extends PureComponent {
   };
 
   handleTopLevelPanelSizeChange = () => {
-    window && window.dispatchEvent(new Event("resize"));
+    window && window.dispatchEvent(new Event('resize'));
   };
 
   handleNestedPanelSizeChange = () => {
-    window && window.dispatchEvent(new Event("resize"));
+    window && window.dispatchEvent(new Event('resize'));
   };
 
   relayoutComponents = () => {
@@ -114,7 +117,7 @@ class Ide extends PureComponent {
 
   render() {
     const { language, theme, disabled, showLoader, value, result } = this.state;
-    const monacoTheme = { dark: "vs-dark", light: "vs" }[theme] || "vs-dark";
+    const monacoTheme = { dark: 'vs-dark', light: 'vs' }[theme] || 'vs-dark';
 
     // SplitterLayout is only available in browser. Temporarily use <div> if not available.
 
@@ -160,27 +163,26 @@ class Ide extends PureComponent {
       />
     );
 
-    const IdePanel =
-      typeof SplitterLayout !== "undefined" ? (
-        <SplitterLayout
-          vertical={true}
-          primaryMinSize={400}
-          secondaryInitialSize={250}
-          onSecondaryPaneSizeChange={this.handleNestedPanelSizeChange}
-        >
-          {EditorPanel}
-          {ConsoleOutputPanel}
-        </SplitterLayout>
-      ) : (
-        <div className="vertical-layout">
-          {EditorPanel}
-          {ConsoleOutputPanel}
-        </div>
-      );
+    const IdePanel = !isNil(SplitterLayout) ? (
+      <SplitterLayout
+        vertical={true}
+        primaryMinSize={400}
+        secondaryInitialSize={250}
+        onSecondaryPaneSizeChange={this.handleNestedPanelSizeChange}
+      >
+        {EditorPanel}
+        {ConsoleOutputPanel}
+      </SplitterLayout>
+    ) : (
+      <div className="vertical-layout">
+        {EditorPanel}
+        {ConsoleOutputPanel}
+      </div>
+    );
 
     return (
-      <div className={["editor-page", theme].join(" ")}>
-        {typeof SplitterLayout !== "undefined" ? (
+      <div className={['editor-page', theme].join(' ')}>
+        {!isNil(SplitterLayout) ? (
           <SplitterLayout
             primaryIndex={1}
             percentage={true}

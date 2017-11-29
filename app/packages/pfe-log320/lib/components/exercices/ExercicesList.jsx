@@ -11,10 +11,10 @@ import {
   withCurrentUser,
   Loading,
 } from 'meteor/vulcan:core';
+import { Link } from 'react-router';
 
 import Exercices from '../../modules/exercices/collection.js';
 import ExercicesItem from './ExercicesItem.jsx';
-import ExercicesNewForm from './ExercicesNewForm.jsx';
 
 const propTypes = {
   results: PropTypes.array,
@@ -35,13 +35,20 @@ const ExercicesList = ({
 }) => (
   <div>
     <div style={{ maxWidth: '500px', margin: '20px auto' }}>
+      {Exercices.options.mutations.new.check(currentUser) && (
+        <Link to={{ pathname: 'newExercice' }}>
+          <button
+            className="btn btn-default"
+            style={{ marginBottom: '1.5em', width: '100%' }}
+          >
+            Créer un nouvel exercice
+          </button>
+        </Link>
+      )}
       {loading ? (
         <Loading />
       ) : (
         <div className="exercices">
-          {/* new document form */}
-          <ExercicesNewForm />
-
           {/* documents list */}
           {results.map(exercice => (
             <ExercicesItem

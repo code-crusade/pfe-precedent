@@ -1,23 +1,26 @@
-import { Meteor } from "meteor/meteor";
-import { SupportedLanguages } from "../modules/supportedLanguages.js";
-import { spawnSync } from "child_process";
+import { Meteor } from 'meteor/meteor';
+import { SupportedLanguages } from '../modules/supportedLanguages.js';
+import path from 'path';
+import { spawnSync } from 'child_process';
 
 Meteor.methods({
   execute: (language, code, fixture) => {
+    // Works in dev, should test in prod.
+    const parentDir = path.resolve(process.cwd(), '../../../../../..');
     const dockerCompose = spawnSync(
-      "docker-compose",
+      'docker-compose',
       [
-        "run",
-        "--rm",
+        'run',
+        '--rm',
         language,
-        "-t",
+        '-t',
         SupportedLanguages[language].framework,
-        "-c",
+        '-c',
         code,
-        "-f",
+        '-f',
         fixture,
       ],
-      { cwd: Meteor.settings.cliPath }
+      { cwd: parentDir + Meteor.settings.cliPath }
     );
 
     return `${dockerCompose.stdout}${dockerCompose.stderr}`;
