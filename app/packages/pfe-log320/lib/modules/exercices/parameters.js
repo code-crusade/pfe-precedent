@@ -1,20 +1,10 @@
-import { addCallback } from 'meteor/vulcan:core';
+import { addCallback } from "meteor/vulcan:core";
 
-
-function sortByName(parameters, terms) {  
+function sortByName(parameters, terms) {
   return {
     selector: parameters.selector,
     options: { ...parameters.options, sort: { name: 1 } },
   };
 }
 
-function FilterHard(parameters, terms) {
-  return {    
-    selector: { difficulty: 'hard' },
-    options: { ...parameters.options },
-  };
-}
-
-
-addCallback('exercices.parameters', sortByName);
-//addCallback('exercices.parameters', FilterHard);
+addCallback("exercices.parameters", sortByName);
