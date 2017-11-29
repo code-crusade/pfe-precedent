@@ -1,4 +1,4 @@
-import { addCallback } from 'meteor/vulcan:core';
+import { addCallback } from "meteor/vulcan:core";
 
 function sortByName(parameters, terms) {
   return {
@@ -7,4 +7,4 @@ function sortByName(parameters, terms) {
   };
 }
 
-addCallback('exercices.parameters', sortByName);
+addCallback("exercices.parameters", sortByName);
