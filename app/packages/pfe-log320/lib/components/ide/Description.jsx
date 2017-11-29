@@ -1,8 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Markdown from "react-markdown";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Markdown from 'react-markdown';
+import isNil from 'lodash/isNil';
 
-import CodeBlock from "./CodeBlock.jsx";
+import CodeBlock from './CodeBlock.jsx';
 
 let ScrollArea;
 
@@ -13,7 +14,7 @@ const propTypes = {
 
 class Description extends React.PureComponent {
   componentDidMount() {
-    ScrollArea = require("react-scrollbar").default;
+    ScrollArea = require('react-scrollbar').default;
   }
 
   assignScrollAreaRef = component => {
@@ -34,18 +35,18 @@ class Description extends React.PureComponent {
           <h1>{this.props.title}</h1>
         </div>
         {React.createElement(
-          typeof ScrollArea !== "undefined" ? ScrollArea : "div",
-          typeof ScrollArea !== "undefined"
+          !isNil(ScrollArea) ? ScrollArea : 'div',
+          !isNil(ScrollArea)
             ? {
                 ref: this.assignScrollAreaRef,
-                className: "problem-description-text-container",
+                className: 'problem-description-text-container',
                 smoothScrolling: true,
               }
-            : { className: "problem-description-text-container" },
+            : { className: 'problem-description-text-container' },
           <Markdown
             className="markdown problem-description-text"
-            renderers={{ CodeBlock: CodeBlock }}
-            source={this.props.description || ""}
+            renderers={{ CodeBlock }}
+            source={this.props.description || ''}
           />
         )}
       </div>

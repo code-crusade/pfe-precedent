@@ -87,15 +87,6 @@ const schema = {
       },
     },
   },
-  exercice: {
-    label: 'Exercice',
-    type: String,
-    optional: false,
-    viewableBy: ['guests'],
-    insertableBy: ['members'],
-    editableBy: ['members'],
-    control: ExercicesFormIde,
-  },
   difficulty: {
     label: 'Difficulté',
     type: String,
@@ -117,6 +108,15 @@ const schema = {
       },
     },
   },
+  exercice: {
+    label: 'Exercice',
+    type: String,
+    optional: false,
+    viewableBy: ['guests'],
+    insertableBy: ['members'],
+    editableBy: ['members'],
+    control: ExercicesFormIde,
+  },
   testType: {
     label: 'Type de test',
     type: String,
@@ -134,6 +134,15 @@ const schema = {
         ];
       },
     },
+  },
+  tests: {
+    label: 'Ensemble de test',
+    type: String,
+    optional: false,
+    viewableBy: ['guests'],
+    insertableBy: ['members'],
+    editableBy: ['members'],
+    control: ExercicesFormIde,
   },
 };
 
