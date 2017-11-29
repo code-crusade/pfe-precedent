@@ -331,6 +331,24 @@ textarea {
   font-weight: bold;
 }
 
+.light .test-failed {
+  color: red !important;
+  font-weight: bold;
+}
+
+.dark .test-failed {
+  color: darkred !important;
+  font-weight: bold;
+}
+
 .test-passed-margin {
   background-color: green;
+}
+
+.dark .console-secondary-log {
+  color: #555;
+}
+
+.light .console-secondary-log {
+  color: #999;
 }

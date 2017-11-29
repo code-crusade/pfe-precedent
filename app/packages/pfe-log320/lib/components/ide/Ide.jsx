@@ -30,7 +30,7 @@ class Ide extends PureComponent {
         get(exercice, "exercice") || SupportedLanguages.csharp.codeTemplate,
       description: get(exercice, "description"),
       title: get(exercice, "name"),
-      result: "Le résultat sera affiché ici\n\n\n\n\n\n\n\n\n",
+      result: "Le résultat sera affiché ici.",
       showLoader: false,
       theme: "dark",
       disabled: false,
@@ -71,6 +71,7 @@ class Ide extends PureComponent {
     this.setState({
       language,
       value: SupportedLanguages[language].codeTemplate,
+      result: "Le résultat sera affiché ici.",
     });
   };
 
@@ -154,6 +155,7 @@ class Ide extends PureComponent {
       <ConsoleOutput
         ref={this.assignConsoleOutputRef}
         value={result}
+        language={language}
         theme={theme}
       />
     );
