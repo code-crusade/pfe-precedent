@@ -15,15 +15,16 @@ import Exercices from '../../modules/exercices/collection.js';
 
 const propTypes = {
   currentUser: PropTypes.object,
+  router: PropTypes.object,
 };
 
-const ExercicesNewForm = ({ currentUser }) => (
+const ExercicesNewForm = ({ currentUser, router }) => (
   <div>
     {Exercices.options.mutations.new.check(currentUser) ? (
       <div
         style={{
-          marginBottom: '20px',
-          paddingBottom: '20px',
+          margin: '1.5em',
+          paddingBottom: '1.5em',
           borderBottom: '1px solid #ccc',
         }}
       >
@@ -31,6 +32,10 @@ const ExercicesNewForm = ({ currentUser }) => (
         <Components.SmartForm
           collection={Exercices}
           mutationFragment={getFragment('ExercicesItemFragment')}
+          successCallback={() => {
+            alert('Exercice ajouté');
+            router.push('');
+          }}
         />
       </div>
     ) : null}
