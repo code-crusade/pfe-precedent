@@ -32,6 +32,7 @@ class UserDelete extends PureComponent {
             borderBottom: '1px solid #ccc',
           }}
         >
+          <h4>Supprimer les élèves</h4>
           <button onClick={this.deleteUsers}>Supprimer les utilisateurs</button>
           {this.state.finished && <div>Suppression Terminé!</div>}
         </div>
