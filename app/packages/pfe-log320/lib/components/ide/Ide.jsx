@@ -38,6 +38,7 @@ class Ide extends PureComponent {
       theme: 'dark',
       disabled: false,
       language: get(exercice, 'language') || 'csharp',
+      lockDropdown: get(exercice, 'language') ? true : false,
     };
 
     this.editorOptions = {
@@ -131,7 +132,7 @@ class Ide extends PureComponent {
     const EditorPanel = (
       <form className="ide" onSubmit={this.handleSubmit}>
         <div className="ide-controls">
-          <Selecter onChange={this.handleLanguageChange} value={language} />
+          <Selecter onChange={this.handleLanguageChange} value={language} lock={this.state.lockDropdown} />
           <Theme onChange={this.handleThemeChange} value={theme} />
           <input
             disabled={disabled}

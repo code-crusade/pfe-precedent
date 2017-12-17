@@ -5,6 +5,7 @@ import { SupportedLanguages } from '../../modules/supportedLanguages.js';
 const propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
+  lock: PropTypes.bool.isRequired,
 };
 
 class Selecter extends PureComponent {
@@ -22,11 +23,16 @@ class Selecter extends PureComponent {
         value={this.props.value}
         onChange={this.onChange}
       >
-        {_.map(SupportedLanguages, lang => (
-          <option key={lang.id} value={lang.id}>
-            {lang.name}
-          </option>
-        ))}
+        {this.props.lock ? 
+          <option key={SupportedLanguages[this.props.value].id} value={SupportedLanguages[this.props.value].id}>
+              {SupportedLanguages[this.props.value].name}
+          </option> :
+          _.map(SupportedLanguages, lang => (
+            <option key={lang.id} value={lang.id}>
+              {lang.name}
+            </option>
+          ))
+       }
       </select>
     );
   }
