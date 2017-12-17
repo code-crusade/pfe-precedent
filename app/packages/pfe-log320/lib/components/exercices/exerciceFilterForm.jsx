@@ -36,9 +36,9 @@ class ExerciceFilter extends Component {
 
     this.state = {
       difficultyFilter: "none",
-      csharp: 1,
-      cpp: 1,
-      python: 1,
+      csharp: 0,
+      cpp: 0,
+      python: 0,
       java: 1,
     };
   }
